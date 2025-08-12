@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <main className="container">
+    <div className="container">
       <Layout style={{ height: '100vh' }}>
         <Sider theme="light">
             <Menu
@@ -69,7 +69,7 @@ function App() {
         </Content>
       </Layout>
       
-    </main>
+    </div>
   );
 }
 
