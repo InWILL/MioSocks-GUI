@@ -72,7 +72,7 @@ function App() {
 
         </Sider>
 
-        <Content>
+        <Content style={{ paddingLeft: 10, paddingRight: 10, background: '#fff'}}>
             {renderContent()}
         </Content>
       </Layout>

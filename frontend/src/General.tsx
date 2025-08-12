@@ -1,6 +1,5 @@
 import { List, Switch, Button, Tooltip, Typography } from "antd"
 import { InfoCircleOutlined, FolderOpenOutlined } from '@ant-design/icons';
-
 const { Text } = Typography;
 
 const settingsData = [
@@ -52,13 +51,14 @@ export default function Menu_General() {
         itemLayout="horizontal"
         dataSource={settingsData}
         renderItem={(item) => (
-            <List.Item actions={[item.control]}>
-                <div style={{ width: 140, textAlign: 'left', paddingLeft: 10}}>
+            <List.Item actions={[item.control]} style={{paddingLeft: 15, paddingRight: 15}} >
+                <div style={{ width: 140, textAlign: 'left'}}>
                 {item.title}
                 <Tooltip title={item.tooltip}>
                     <InfoCircleOutlined style={{ marginLeft: 8, color: '#999' }} />
                 </Tooltip>
                 </div>
+                
             </List.Item>
         )}
     />
