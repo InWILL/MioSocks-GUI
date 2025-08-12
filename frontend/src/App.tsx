@@ -1,56 +1,76 @@
-import { useState, useEffect } from 'react'
-import {GreetService} from "../bindings/changeme";
-import {Events, WML} from "@wailsio/runtime";
+import { useState } from 'react'
+
+import { Layout, Menu } from "antd"
+import Menu_General from './General'
+
+const { Sider, Content } = Layout;
 
 function App() {
-  const [name, setName] = useState<string>('');
-  const [result, setResult] = useState<string>('Please enter your name below 👇');
-  const [time, setTime] = useState<string>('Listening for Time event...');
+  const [current, setCurrent] = useState('General');
 
-  const doGreet = () => {
-    let localName = name;
-    if (!localName) {
-      localName = 'anonymous';
+  const onClick = (e: any) => {
+    setCurrent(e.key);
+  };
+
+  const renderContent = () => {
+    switch (current) {
+      case 'General':
+        return Menu_General();
+      case 'Proxies':
+        return <div>这是应用页面内容</div>;
+      case 'Profiles':
+        return <div>设置选项1的内容</div>;
+      case 'Logs':
+        return <div>设置选项2的内容</div>;
+      default:
+        return <div>请选择菜单</div>;
     }
-    GreetService.Greet(localName).then((resultValue: string) => {
-      setResult(resultValue);
-    }).catch((err: any) => {
-      console.log(err);
-    });
-  }
-
-  useEffect(() => {
-    Events.On('time', (timeValue: any) => {
-      setTime(timeValue.data);
-    });
-    // Reload WML so it picks up the wml tags
-    WML.Reload();
-  }, []);
+  };
 
   return (
-    <div className="container">
-      <div>
-        <a data-wml-openURL="https://wails.io">
-          <img src="/wails.png" className="logo" alt="Wails logo"/>
-        </a>
-        <a data-wml-openURL="https://reactjs.org">
-          <img src="/react.svg" className="logo react" alt="React logo"/>
-        </a>
-      </div>
-      <h1>Wails + React</h1>
-      <div className="result">{result}</div>
-      <div className="card">
-        <div className="input-box">
-          <input className="input" value={name} onChange={(e) => setName(e.target.value)} type="text" autoComplete="off"/>
-          <button className="btn" onClick={doGreet}>Greet</button>
-        </div>
-      </div>
-      <div className="footer">
-        <div><p>Click on the Wails logo to learn more</p></div>
-        <div><p>{time}</p></div>
-      </div>
-    </div>
-  )
+    <main className="container">
+      <Layout style={{ height: '100vh' }}>
+        <Sider theme="light">
+            <Menu
+                onClick={onClick}
+                selectedKeys={[current]}
+                mode="vertical"
+            >
+                <Menu.Item key="General">
+                    General
+                </Menu.Item>
+                <Menu.Item key="Proxies" >
+                    Proxies
+                </Menu.Item>
+                <Menu.Item key="Profiles" >
+                    Profiles
+                </Menu.Item>
+                <Menu.Item key="Logs" >
+                    Logs
+                </Menu.Item>
+                <Menu.Item key="Connections" >
+                    Connections
+                </Menu.Item>
+                <Menu.Item key="Settings" >
+                    Settings
+                </Menu.Item>
+                <Menu.Item key="About" >
+                    About
+                </Menu.Item>
+            </Menu>
+
+            <Layout>
+                Connected
+            </Layout>
+        </Sider>
+
+        <Content>
+            {renderContent()}
+        </Content>
+      </Layout>
+      
+    </main>
+  );
 }
 
 export default App
