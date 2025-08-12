@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Layout, Menu } from "antd"
 import Menu_General from './General'
+import Profiles_General from './Profiles'
 
 const { Sider, Content } = Layout;
 
@@ -19,7 +20,7 @@ function App() {
       case 'Proxies':
         return <div>这是应用页面内容</div>;
       case 'Profiles':
-        return <div>设置选项1的内容</div>;
+        return Profiles_General();
       case 'Logs':
         return <div>设置选项2的内容</div>;
       default:
@@ -59,9 +60,16 @@ function App() {
                 </Menu.Item>
             </Menu>
 
-            <Layout>
-                Connected
-            </Layout>
+            <div style={{ textAlign: 'center' }}>
+                ↑
+            </div>
+            <div style={{ textAlign: 'center' }}>
+                ↓
+            </div>
+            <div style={{ textAlign: 'center' }}>
+                ■Connected
+            </div>
+
         </Sider>
 
         <Content>
