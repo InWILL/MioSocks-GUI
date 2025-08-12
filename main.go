@@ -4,9 +4,11 @@ import (
 	"embed"
 	_ "embed"
 	"log"
+	"runtime"
 	"time"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v3/pkg/icons"
 )
 
 // Wails uses Go's `embed` package to embed the frontend files into the binary.
@@ -41,6 +43,8 @@ func main() {
 		},
 	})
 
+	systemTray := app.SystemTray.New()
+
 	// Create a new window with the necessary options.
 	// 'Title' is the title of the window.
 	// 'Mac' options tailor the window when running on macOS.
@@ -66,6 +70,10 @@ func main() {
 			time.Sleep(time.Second)
 		}
 	}()
+
+	if runtime.GOOS == "darwin" {
+		systemTray.SetTemplateIcon(icons.SystrayMacTemplate)
+	}
 
 	// Run the application. This blocks until the application has been exited.
 	err := app.Run()
