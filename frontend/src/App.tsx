@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Layout, Menu } from "antd"
 import Menu_General from './General'
-import Profiles_General from './Profiles'
+import Menu_Profiles from './Profiles'
 
 const { Sider, Content } = Layout;
 
@@ -20,7 +20,7 @@ function App() {
       case 'Proxies':
         return <div>这是应用页面内容</div>;
       case 'Profiles':
-        return Profiles_General();
+        return Menu_Profiles();
       case 'Logs':
         return <div>设置选项2的内容</div>;
       default:
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div className="container">
-      <Layout style={{ height: '100vh' }}>
+      <Layout style={{ height: '100vh'}}>
         <Sider theme="light">
             <Menu
                 onClick={onClick}
@@ -72,7 +72,7 @@ function App() {
 
         </Sider>
 
-        <Content style={{ paddingLeft: 10, paddingRight: 10, background: '#fff'}}>
+        <Content style={{ padding: 10, background: '#fff'}}>
             {renderContent()}
         </Content>
       </Layout>

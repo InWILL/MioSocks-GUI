@@ -3,7 +3,7 @@ import { Col, Divider, Row } from 'antd';
 
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '8px 0' };
 
-export default function Profiles_General() {
+export default function Menu_Profiles() {
     return (
     <Row gutter={[16, 24]}>
       <Col className="gutter-row" span={12}>
