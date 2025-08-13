@@ -21,7 +21,7 @@ function App() {
       case 'Proxies':
         return Menu_Proxies();
       case 'Profiles':
-        return Menu_Profiles();
+        return <Menu_Profiles />;
       case 'Logs':
         return <div>设置选项2的内容</div>;
       default:
