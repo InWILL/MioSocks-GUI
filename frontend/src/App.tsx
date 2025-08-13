@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Layout, Menu } from "antd"
 import Menu_General from './General'
+import Menu_Proxies from './Proxies'
 import Menu_Profiles from './Profiles'
 
 const { Sider, Content } = Layout;
@@ -18,7 +19,7 @@ function App() {
       case 'General':
         return Menu_General();
       case 'Proxies':
-        return <div>这是应用页面内容</div>;
+        return Menu_Proxies();
       case 'Profiles':
         return Menu_Profiles();
       case 'Logs':

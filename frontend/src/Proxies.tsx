@@ -3,10 +3,10 @@ import { Col, Divider, Row } from 'antd';
 
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '8px 0' };
 
-export default function Menu_Profiles() {
+export default function Menu_Proxies() {
     return (
       <div>
-        <Divider orientation="left">Config</Divider>
+        <Divider orientation="left">Server</Divider>
         <Row gutter={[16, 24]}>
           <Col className="gutter-row" span={12}>
             <div style={style}>col-6</div>
@@ -33,6 +33,7 @@ export default function Menu_Profiles() {
             <div style={style}>col-6</div>
           </Col>
         </Row>
+        <Divider orientation="left">Rules</Divider>
       </div>
     )
 }
