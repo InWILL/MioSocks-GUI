@@ -19,7 +19,7 @@ const settingsData = [
     control: <Switch defaultChecked={false} />
   },
   {
-    title: 'Clash Core',
+    title: 'MioSocks Core',
     tooltip: '内核版本信息',
     control: <Text>2023.08.17-13-gdcc8d87 Premium (62236)</Text>
   },
