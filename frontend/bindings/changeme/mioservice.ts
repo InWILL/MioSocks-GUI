@@ -6,7 +6,13 @@
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
 export function GetProfiles(): $CancellablePromise<string[]> {
-    return $Call.ByID(2582885906).then(($result: any) => {
+    return $Call.ByID(2493533808).then(($result: any) => {
+        return $$createType0($result);
+    });
+}
+
+export function GetProxies(file: string): $CancellablePromise<string[]> {
+    return $Call.ByID(1268542794, file).then(($result: any) => {
         return $$createType0($result);
     });
 }
