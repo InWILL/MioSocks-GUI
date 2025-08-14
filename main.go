@@ -33,7 +33,6 @@ func main() {
 		Name:        "MioSocks-GUI",
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
-			application.NewService(&GreetService{}),
 			application.NewService(&MioService{}),
 		},
 		Assets: application.AssetOptions{

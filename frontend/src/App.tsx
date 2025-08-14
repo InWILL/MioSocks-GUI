@@ -17,9 +17,9 @@ function App() {
   const renderContent = () => {
     switch (current) {
       case 'General':
-        return Menu_General();
+        return <Menu_General />;
       case 'Proxies':
-        return Menu_Proxies();
+        return <Menu_Proxies />;
       case 'Profiles':
         return <Menu_Profiles />;
       case 'Logs':

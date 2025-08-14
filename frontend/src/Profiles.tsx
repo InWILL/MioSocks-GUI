@@ -7,6 +7,10 @@ import { MioService } from '../bindings/changeme'
 
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '10px 0' };
 
+const GetProxies = (e: string) => {
+    MioService.GetProxies(e);
+};
+
 export default function Menu_Profiles() {
     const [msg, setMsg] = useState<string[]>([]);
     useEffect(() => {
@@ -16,7 +20,7 @@ export default function Menu_Profiles() {
         };
         fetchData();
     }, []);
-    
+
     return (
         <div>
             <Divider orientation="left">
@@ -28,7 +32,11 @@ export default function Menu_Profiles() {
                 {
                 msg.map((name, i) => (
                     <Col className="gutter-row" span={10}>
-                        <Button key={i} style={{ width: "100%", height: "100%" }}>
+                        <Button
+                            key={i} 
+                            style={{ width: "100%", height: "100%" }} 
+                            onClick={() => GetProxies(name)}
+                        >
                             {name}
                         </Button>
                     </Col>
