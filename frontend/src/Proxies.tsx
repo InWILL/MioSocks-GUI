@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Col, Divider, Row, Button } from 'antd';
-import { ThunderboltTwoTone } from '@ant-design/icons';
+import { ThunderboltOutlined } from '@ant-design/icons';
 
 import { MioService } from '../bindings/changeme'
 
@@ -18,7 +18,7 @@ export const ProxyButton: React.FC<ProxyButtonType> = ({
   label,
   onMainClick,
   onIconClick,
-  icon = <ThunderboltTwoTone />
+  icon = <ThunderboltOutlined />
 }) => {
   return (
     <div
