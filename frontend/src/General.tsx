@@ -51,7 +51,7 @@ export default function Menu_General() {
         itemLayout="horizontal"
         dataSource={settingsData}
         renderItem={(item) => (
-            <List.Item actions={[item.control]} style={{paddingLeft: 15, paddingRight: 15}} >
+            <List.Item actions={[item.control]} style={{paddingLeft: 10, paddingRight: 10}} >
                 <div style={{ width: 140, textAlign: 'left'}}>
                 {item.title}
                 <Tooltip title={item.tooltip}>
