@@ -1,14 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/goccy/go-yaml"
 )
 
 type Profile struct {
-	Url     string           `json:"url"`
-	Proxies []map[string]any `json:"proxies"`
+	Proxies []map[string]any `yaml:"proxies"`
 }
 
 type MioService struct {
@@ -36,7 +36,7 @@ func (m *MioService) GetProxies(file string) int {
 	}
 
 	m.profile = Profile{}
-	err = json.Unmarshal(data, &m.profile)
+	err = yaml.Unmarshal(data, &m.profile)
 	if err != nil {
 		panic(err)
 	}

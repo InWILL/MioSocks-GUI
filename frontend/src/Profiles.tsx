@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row, Button, Tooltip  } from 'antd';
+import { Col, Divider, Row, Button, Input  } from 'antd';
 import { PlusCircleOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
@@ -11,8 +11,14 @@ const GetProxies = (e: string) => {
     MioService.GetProxies(e);
 };
 
+const Download = async (url: string) => {
+    const result: string = await MioService.Download(url, "test.yaml")
+    alert(result)
+}
+
 export default function Menu_Profiles() {
     const [msg, setMsg] = useState<string[]>([]);
+    const [value, setValue] = useState<string>("")
     useEffect(() => {
          const fetchData = async () => {
             const result: string[] = await MioService.GetProfiles();
@@ -23,6 +29,25 @@ export default function Menu_Profiles() {
 
     return (
         <div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                }}
+                >
+                <Input
+                    placeholder="输入内容或URL…"
+                    allowClear
+                    onChange = {(e) => setValue(e.target.value)}
+                />
+                <Button 
+                    onClick={() => Download(value)}
+                >
+                    Download
+                </Button>
+                <Button>Update</Button>
+                <Button>Import</Button>
+            </div>
             <Divider orientation="left">
                 Config
                 <PlusCircleOutlined />

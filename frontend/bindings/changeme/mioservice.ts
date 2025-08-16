@@ -5,8 +5,8 @@
 // @ts-ignore: Unused imports
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
-export function DownloadConfig(url: string, name: string): $CancellablePromise<boolean> {
-    return $Call.ByID(3338213196, url, name);
+export function Download(url: string, name: string): $CancellablePromise<string> {
+    return $Call.ByID(3367144066, url, name);
 }
 
 export function GetProfiles(): $CancellablePromise<string[]> {
