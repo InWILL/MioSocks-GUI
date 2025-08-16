@@ -25,5 +25,13 @@ export function ParseProxies(): $CancellablePromise<string[]> {
     });
 }
 
+export function Start(): $CancellablePromise<void> {
+    return $Call.ByID(3114879498);
+}
+
+export function UpdateProxy(index: number): $CancellablePromise<void> {
+    return $Call.ByID(260160165, index);
+}
+
 // Private type creation functions
 const $$createType0 = $Create.Array($Create.Any);

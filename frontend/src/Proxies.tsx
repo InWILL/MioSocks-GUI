@@ -8,6 +8,10 @@ import { MioService } from '../bindings/changeme'
 
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '8px 0' };
 
+const UpdateProxy = (index : number) => {
+    MioService.UpdateProxy(index)
+}
+
 export default function Menu_Proxies() {
     const [msg, setMsg] = useState<string[]>([]);
     useEffect(() => {
@@ -26,14 +30,14 @@ export default function Menu_Proxies() {
     return (
       <div>
         <Divider orientation="left">Server</Divider>
-        <Row gutter={[16, 24]}>
+        <Row gutter={[12, 12]}>
         {
             msg.map((name, i) => (
-                <Col className="gutter-row" span={10}>
+                <Col className="gutter-row" span={12}>
                     <CustomButton
                         key = {i}
                         label = {name}
-                        onMainClick = {() => alert("主要功能触发！")}
+                        onMainClick = {() => UpdateProxy(i)}
                         onIconClick = {() => alert("辅助功能触发！")}
                         icon = {<ThunderboltOutlined />}
                     />

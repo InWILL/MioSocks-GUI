@@ -23,6 +23,7 @@ var assets embed.FS
 // and starts a goroutine that emits a time-based event every second. It subsequently runs the application and
 // logs any error that might occur.
 func main() {
+	service := &MioService{}
 
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.
@@ -33,7 +34,7 @@ func main() {
 		Name:        "MioSocks-GUI",
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
-			application.NewService(&MioService{}),
+			application.NewService(service),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -74,6 +75,8 @@ func main() {
 	if runtime.GOOS == "darwin" {
 		systemTray.SetTemplateIcon(icons.SystrayMacTemplate)
 	}
+
+	service.Start()
 
 	// Run the application. This blocks until the application has been exited.
 	err := app.Run()
