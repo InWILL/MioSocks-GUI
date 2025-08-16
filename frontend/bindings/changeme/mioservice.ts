@@ -5,6 +5,10 @@
 // @ts-ignore: Unused imports
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
+export function DownloadConfig(url: string, name: string): $CancellablePromise<boolean> {
+    return $Call.ByID(3338213196, url, name);
+}
+
 export function GetProfiles(): $CancellablePromise<string[]> {
     return $Call.ByID(2493533808).then(($result: any) => {
         return $$createType0($result);
