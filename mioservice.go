@@ -9,9 +9,6 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
-var UpStream int64
-var DownStream int64
-
 type Profile struct {
 	Proxies []map[string]any `yaml:"proxies"`
 }
@@ -81,14 +78,10 @@ func (m *MioService) UpdateProxy(index int) {
 func (m *MioService) GetStream() {
 	ticker := time.NewTicker(time.Second)
 	for range ticker.C {
-		newUpStream := m.service.GetUpStream()
-		newDownStream := m.service.GetDownStream()
-		UpSpeed := newUpStream - UpStream
-		DownSpeed := newDownStream - DownStream
-		UpStream = newUpStream
-		DownStream = newDownStream
-		app.Event.Emit("upstream-update", fmt.Sprintf("%s/s %s", formatBytes(UpSpeed), formatBytes(UpStream)))
-		app.Event.Emit("downstream-update", fmt.Sprintf("%s/s %s", formatBytes(DownSpeed), formatBytes(DownStream)))
+		UpStream := m.service.GetUpStream()
+		DownStream := m.service.GetDownStream()
+		app.Event.Emit("upstream-update", formatBytes(UpStream))
+		app.Event.Emit("downstream-update", formatBytes(DownStream))
 	}
 }
 
