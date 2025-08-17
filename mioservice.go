@@ -87,8 +87,8 @@ func (m *MioService) GetStream() {
 		DownSpeed := newDownStream - DownStream
 		UpStream = newUpStream
 		DownStream = newDownStream
-		app.Event.Emit("upstream-update", fmt.Sprintf("%s/s %s", UpSpeed, UpStream))
-		app.Event.Emit("downstream-update", fmt.Sprintf("%s/s %s", DownSpeed, DownStream))
+		app.Event.Emit("upstream-update", fmt.Sprintf("%d/s %d", UpSpeed, UpStream))
+		app.Event.Emit("downstream-update", fmt.Sprintf("%d/s %d", DownSpeed, DownStream))
 	}
 }
 
