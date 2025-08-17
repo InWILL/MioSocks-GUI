@@ -19,22 +19,10 @@ export function GetProxies(file: string): $CancellablePromise<number> {
     return $Call.ByID(1268542794, file);
 }
 
-export function GetStream(): $CancellablePromise<void> {
-    return $Call.ByID(2499540926);
-}
-
 export function ParseProxies(): $CancellablePromise<string[]> {
     return $Call.ByID(2672512555).then(($result: any) => {
         return $$createType0($result);
     });
-}
-
-export function Start(): $CancellablePromise<void> {
-    return $Call.ByID(3114879498);
-}
-
-export function UpdateProxy(index: number): $CancellablePromise<void> {
-    return $Call.ByID(260160165, index);
 }
 
 // Private type creation functions

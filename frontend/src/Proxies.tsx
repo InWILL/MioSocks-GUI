@@ -9,7 +9,7 @@ import { MioService } from '../bindings/changeme'
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '8px 0' };
 
 const UpdateProxy = (index : number) => {
-    MioService.UpdateProxy(index)
+    //MioService.UpdateProxy(index)
 }
 
 export default function Menu_Proxies() {

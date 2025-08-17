@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"time"
 
-	"github.com/InWILL/MioSocks/service"
 	"github.com/goccy/go-yaml"
 )
 
@@ -16,7 +14,7 @@ type Profile struct {
 type MioService struct {
 	profiles []string
 	profile  Profile
-	service  service.MioService
+	// service  service.MioService
 }
 
 func (m *MioService) GetProfiles() []string {
@@ -59,31 +57,31 @@ func (m *MioService) ParseProxies() []string {
 	return name
 }
 
-func (m *MioService) Start() {
-	m.service, _ = service.NewService(
-		service.MioOptions{
-			Port: 2805,
-			Proxy: map[string]any{
-				"name": "Direct",
-				"type": "direct",
-			},
-		})
-	go m.service.Start()
-}
+// func (m *MioService) Start() {
+// 	m.service, _ = service.NewService(
+// 		service.MioOptions{
+// 			Port: 2805,
+// 			Proxy: map[string]any{
+// 				"name": "Direct",
+// 				"type": "direct",
+// 			},
+// 		})
+// 	go m.service.Start()
+// }
 
-func (m *MioService) UpdateProxy(index int) {
-	m.service.UpdateProxy(m.profile.Proxies[index])
-}
+// func (m *MioService) UpdateProxy(index int) {
+// 	m.service.UpdateProxy(m.profile.Proxies[index])
+// }
 
-func (m *MioService) GetStream() {
-	ticker := time.NewTicker(time.Second)
-	for range ticker.C {
-		UpStream := m.service.GetUpStream()
-		DownStream := m.service.GetDownStream()
-		app.Event.Emit("upstream-update", formatBytes(UpStream))
-		app.Event.Emit("downstream-update", formatBytes(DownStream))
-	}
-}
+// func (m *MioService) GetStream() {
+// 	ticker := time.NewTicker(time.Second)
+// 	for range ticker.C {
+// 		UpStream := m.service.GetUpStream()
+// 		DownStream := m.service.GetDownStream()
+// 		app.Event.Emit("upstream-update", formatBytes(UpStream))
+// 		app.Event.Emit("downstream-update", formatBytes(DownStream))
+// 	}
+// }
 
 func formatBytes(bytes int64) string {
 	const (

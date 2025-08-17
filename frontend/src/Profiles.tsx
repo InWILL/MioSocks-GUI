@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Col, Divider, Row, Button, Input  } from 'antd';
-import { PlusCircleOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
+import { CopyOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
@@ -39,6 +39,13 @@ export default function Menu_Profiles() {
                     placeholder="输入内容或URL…"
                     allowClear
                     onChange = {(e) => setValue(e.target.value)}
+                    suffix={
+                        <Button 
+                            icon = {<CopyOutlined />} 
+                            type ='text' 
+                            style={{ color: "#999999" }}
+                        />
+                    }
                 />
                 <Button 
                     onClick={() => Download(value)}
@@ -50,8 +57,10 @@ export default function Menu_Profiles() {
             </div>
             <Divider orientation="left">
                 Config
-                <PlusCircleOutlined />
-                <ReloadOutlined />
+                <Button 
+                    icon={<ReloadOutlined />}
+                    type='text'
+                />
             </Divider>
             <Row gutter={[16, 24]}>
                 {

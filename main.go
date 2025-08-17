@@ -78,8 +78,8 @@ func main() {
 		systemTray.SetTemplateIcon(icons.SystrayMacTemplate)
 	}
 
-	service.Start()
-	go service.GetStream()
+	// service.Start()
+	// go service.GetStream()
 
 	// Run the application. This blocks until the application has been exited.
 	err := app.Run()

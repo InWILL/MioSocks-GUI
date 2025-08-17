@@ -4,6 +4,16 @@ const { Text } = Typography;
 
 const settingsData = [
   {
+    title: 'Socks5 Port',
+    control:
+    <div>
+      <Button type="text">
+      : 2805
+      </Button>
+      <Switch defaultChecked={true} />
+    </div>
+  },
+  {
     title: 'Allow LAN',
     tooltip: '允许局域网设备连接',
     control: <Switch defaultChecked={false} />
@@ -27,16 +37,6 @@ const settingsData = [
     title: 'Home Directory',
     tooltip: '配置文件目录',
     control: <Button type="link" icon={<FolderOpenOutlined />}>Open Folder</Button>
-  },
-  {
-    title: 'Service Mode',
-    tooltip: '以系统服务运行',
-    control: <Button type="link">Manage</Button>
-  },
-  {
-    title: 'TUN Mode',
-    tooltip: '虚拟网卡模式',
-    control: <Switch defaultChecked={false} />
   },
   {
     title: 'System Proxy',
