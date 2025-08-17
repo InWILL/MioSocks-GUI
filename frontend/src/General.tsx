@@ -21,7 +21,7 @@ const settingsData = [
   {
     title: 'Log Level',
     tooltip: '日志输出等级',
-    control: <Text>info</Text>
+    control: <Button type="text">info</Button>
   },
   {
     title: 'IPv6',
