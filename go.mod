@@ -3,7 +3,7 @@ module changeme
 go 1.24.2
 
 require (
-	github.com/InWILL/MioSocks v0.0.0-20250817105003-92805a2a7eb6
+	github.com/InWILL/MioSocks v0.0.0-20250817184706-72f94fc13108
 	github.com/goccy/go-yaml v1.18.0
 	github.com/wailsapp/wails/v3 v3.0.0-alpha.25
 )

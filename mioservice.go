@@ -9,6 +9,9 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
+var UpStream int64
+var DownStream int64
+
 type Profile struct {
 	Proxies []map[string]any `yaml:"proxies"`
 }
@@ -78,9 +81,34 @@ func (m *MioService) UpdateProxy(index int) {
 func (m *MioService) GetStream() {
 	ticker := time.NewTicker(time.Second)
 	for range ticker.C {
-		upstream := m.service.GetUpStream()
-		downstream := m.service.GetDownStream()
-		app.Event.Emit("upstream-update", upstream)
-		app.Event.Emit("downstream-update", downstream)
+		newUpStream := m.service.GetUpStream()
+		newDownStream := m.service.GetDownStream()
+		UpSpeed := newUpStream - UpStream
+		DownSpeed := newDownStream - DownStream
+		UpStream = newUpStream
+		DownStream = newDownStream
+		app.Event.Emit("upstream-update", fmt.Sprintf("%s/s %s", UpSpeed, UpStream))
+		app.Event.Emit("downstream-update", fmt.Sprintf("%s/s %s", DownSpeed, DownStream))
+	}
+}
+
+func formatBytes(bytes int64) string {
+	const (
+		KB = 1024
+		MB = 1024 * KB
+		GB = 1024 * MB
+		TB = 1024 * GB
+	)
+	switch {
+	case bytes >= TB:
+		return fmt.Sprintf("%.2f TB", float64(bytes)/float64(TB))
+	case bytes >= GB:
+		return fmt.Sprintf("%.2f GB", float64(bytes)/float64(GB))
+	case bytes >= MB:
+		return fmt.Sprintf("%.2f MB", float64(bytes)/float64(MB))
+	case bytes >= KB:
+		return fmt.Sprintf("%.2f KB", float64(bytes)/float64(KB))
+	default:
+		return fmt.Sprintf("%d B", bytes)
 	}
 }

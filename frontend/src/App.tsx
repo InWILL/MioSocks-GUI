@@ -10,19 +10,19 @@ const { Sider, Content } = Layout;
 
 function App() {
   const [current, setCurrent] = useState('General');
-  const [Upstream, setUpstream] = useState(0)
-  const [Downstream, setDownstream] = useState(0)
+  const [Upstream, setUpstream] = useState<string>("")
+  const [Downstream, setDownstream] = useState<string>("")
 
   const onClick = (e: any) => {
     setCurrent(e.key);
   };
   useEffect(() => {
     Events.On("upstream-update", (event) => {
-      const val: number = event.data
+      const val: string = event.data
       setUpstream(val);
     });
     Events.On("downstream-update", (event) => {
-      const val: number = event.data
+      const val: string = event.data
       setDownstream(val);
     });
   }, []);
@@ -75,10 +75,10 @@ function App() {
             </Menu>
 
             <div style={{ textAlign: 'center' }}>
-                ↑{Upstream}
+                ↑ {Upstream}
             </div>
             <div style={{ textAlign: 'center' }}>
-                ↓{Downstream}
+                ↓ {Downstream}
             </div>
             <div style={{ textAlign: 'center' }}>
                 ■Connected
