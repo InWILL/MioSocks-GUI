@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/InWILL/MioSocks/service"
 	"github.com/goccy/go-yaml"
@@ -72,4 +73,14 @@ func (m *MioService) Start() {
 
 func (m *MioService) UpdateProxy(index int) {
 	m.service.UpdateProxy(m.profile.Proxies[index])
+}
+
+func (m *MioService) GetStream() {
+	ticker := time.NewTicker(time.Second)
+	for range ticker.C {
+		upstream := m.service.GetUpStream()
+		downstream := m.service.GetDownStream()
+		app.Event.Emit("upstream-update", upstream)
+		app.Event.Emit("downstream-update", downstream)
+	}
 }

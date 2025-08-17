@@ -19,6 +19,8 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+var app *application.App
+
 // main function serves as the application's entry point. It initializes the application, creates a window,
 // and starts a goroutine that emits a time-based event every second. It subsequently runs the application and
 // logs any error that might occur.
@@ -30,7 +32,7 @@ func main() {
 	// 'Assets' configures the asset server with the 'FS' variable pointing to the frontend files.
 	// 'Bind' is a list of Go struct instances. The frontend has access to the methods of these instances.
 	// 'Mac' options tailor the application when running an macOS.
-	app := application.New(application.Options{
+	app = application.New(application.Options{
 		Name:        "MioSocks-GUI",
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
@@ -77,6 +79,7 @@ func main() {
 	}
 
 	service.Start()
+	go service.GetStream()
 
 	// Run the application. This blocks until the application has been exited.
 	err := app.Run()

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Events } from '@wailsio/runtime';
 
 import { Layout, Menu } from "antd"
 import Menu_General from './General'
@@ -9,10 +10,22 @@ const { Sider, Content } = Layout;
 
 function App() {
   const [current, setCurrent] = useState('General');
+  const [Upstream, setUpstream] = useState(0)
+  const [Downstream, setDownstream] = useState(0)
 
   const onClick = (e: any) => {
     setCurrent(e.key);
   };
+  useEffect(() => {
+    Events.On("upstream-update", (event) => {
+      const val: number = event.data
+      setUpstream(val);
+    });
+    Events.On("downstream-update", (event) => {
+      const val: number = event.data
+      setDownstream(val);
+    });
+  }, []);
 
   const renderContent = () => {
     switch (current) {
@@ -62,10 +75,10 @@ function App() {
             </Menu>
 
             <div style={{ textAlign: 'center' }}>
-                ↑
+                ↑{Upstream}
             </div>
             <div style={{ textAlign: 'center' }}>
-                ↓
+                ↓{Downstream}
             </div>
             <div style={{ textAlign: 'center' }}>
                 ■Connected
