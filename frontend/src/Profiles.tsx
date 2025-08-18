@@ -24,6 +24,8 @@ export default function Menu_Profiles() {
     }, []);
 
     const handleClick = (key: number, name: string) => {
+        if (selectedKey === key) return;
+
         setSelectedKey(key);
         MioService.GetProxies(name);
     }
@@ -63,10 +65,10 @@ export default function Menu_Profiles() {
                     type='text'
                 />
             </Divider>
-            <Row gutter={[16, 24]}>
+            <Row gutter={[12, 12]}>
                 {
                 msg.map((name, i) => (
-                    <Col className="gutter-row" span={10}>
+                    <Col className="gutter-row" span={12}>
                         <CustomButton
                             key={i}
                             label={name}

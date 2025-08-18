@@ -34,7 +34,6 @@ export const CustomButton: React.FC<CustomButtonType> = ({
             }}
         />
         <Button
-            type="text"
             onClick={onMainClick}
             style={{
             border: "none",
@@ -47,7 +46,6 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         </Button>
         {/* 辅助功能按钮（带图标） */}
         <Button
-            type="text"
             icon={icon}
             onClick={(e) => {
             e.stopPropagation(); // 防止触发主功能

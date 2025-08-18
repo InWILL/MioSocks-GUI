@@ -11,6 +11,8 @@ export default function Menu_Proxies() {
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
 
     const handleClick = (key: number) => {
+        if (selectedKey === key) return;
+
         setSelectedKey(key);
         //MioService.UpdateProxy(index)
     }
