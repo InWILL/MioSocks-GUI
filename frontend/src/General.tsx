@@ -28,30 +28,34 @@ export default function Menu_General() {
             title: 'Socks5 Port',
             control:
             <div>
-            <Button type="text" disabled={Socks5Disabled} onClick={()=>setSocks5Modal(true)}>
-            : {Socks5Port}
-            </Button>
-            <Modal
-                title="Port Number:"
-                open={Socks5Modal}
-                onOk={handleSocks5Modal}
-                onCancel={() => setSocks5Modal(false)}
-            >
-                <InputNumber
-                    min={1}
-                    max={65535}
-                    defaultValue={2801}
-                    onChange = {(val: number) => {setTempPort(val)}}
+                <Button type="text" disabled={Socks5Disabled} onClick={()=>setSocks5Modal(true)}>
+                    : {Socks5Port}
+                </Button>
+                <Modal
+                    title="Port Number:"
+                    open={Socks5Modal}
+                    onOk={handleSocks5Modal}
+                    onCancel={() => setSocks5Modal(false)}
                 >
-                </InputNumber>
-            </Modal>
-            <Switch defaultChecked={true} onChange={Socks5Switch}/>
+                    <InputNumber
+                        min={1}
+                        max={65535}
+                        defaultValue={2801}
+                        onChange = {(val: number) => {setTempPort(val)}}
+                    >
+                    </InputNumber>
+                </Modal>
+                <Switch defaultChecked={true} onChange={Socks5Switch}/>
             </div>
         },
         {
             title: 'Allow LAN',
             tooltip: '允许局域网设备连接',
-            control: <Switch defaultChecked={false} disabled={Socks5Disabled}/>
+            control: 
+            <Switch 
+                defaultChecked={false} 
+                disabled={Socks5Disabled}
+            />
         },
         {
             title: 'Log Level',
