@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Col, Divider, Row, Button, Input  } from 'antd';
-import { CopyOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
+import { CopyOutlined, CheckOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
@@ -12,8 +12,9 @@ const Download = async (url: string) => {
 
 export default function Menu_Profiles() {
     const [msg, setMsg] = useState<string[]>([]);
-    const [value, setValue] = useState<string>("")
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
+    const [InputValue, setInputValue] = useState<string>("");
+    const [CopyClicked, setCopyClicked] = useState<boolean>(false);
 
     useEffect(() => {
          const fetchData = async () => {
@@ -30,6 +31,12 @@ export default function Menu_Profiles() {
         MioService.GetProxies(name);
     }
 
+    const handleCopyClick = async () => {
+        await navigator.clipboard.writeText(InputValue);
+        setCopyClicked(true);
+        setTimeout(() => setCopyClicked(false), 1000);
+    }
+
     return (
         <div>
             <div
@@ -41,17 +48,18 @@ export default function Menu_Profiles() {
                 <Input
                     placeholder="输入内容或URL…"
                     allowClear
-                    onChange = {(e) => setValue(e.target.value)}
+                    onChange = {(e) => setInputValue(e.target.value)}
                     suffix={
                         <Button 
-                            icon = {<CopyOutlined />} 
+                            icon = { CopyClicked == true ? <CheckOutlined />:<CopyOutlined />} 
                             type ='text' 
                             style={{ color: "#999999" }}
+                            onClick = {handleCopyClick}
                         />
                     }
                 />
                 <Button 
-                    onClick={() => Download(value)}
+                    onClick={() => Download(InputValue)}
                 >
                     Download
                 </Button>
