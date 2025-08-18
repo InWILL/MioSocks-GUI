@@ -7,10 +7,6 @@ import { MioService } from '../bindings/changeme'
 
 const style: React.CSSProperties = { background: '#e9e9e9', padding: '10px 0' };
 
-const GetProxies = (e: string) => {
-    MioService.GetProxies(e);
-};
-
 const Download = async (url: string) => {
     const result: string = await MioService.Download(url, "test.yaml")
     alert(result)
@@ -19,6 +15,8 @@ const Download = async (url: string) => {
 export default function Menu_Profiles() {
     const [msg, setMsg] = useState<string[]>([]);
     const [value, setValue] = useState<string>("")
+    const [selectedKey, setSelectedKey] = useState<number | null>(null);
+
     useEffect(() => {
          const fetchData = async () => {
             const result: string[] = await MioService.GetProfiles();
@@ -26,6 +24,11 @@ export default function Menu_Profiles() {
         };
         fetchData();
     }, []);
+
+    const handleClick = (key: number, name: string) => {
+        setSelectedKey(key);
+        MioService.GetProxies(name);
+    }
 
     return (
         <div>
@@ -69,8 +72,9 @@ export default function Menu_Profiles() {
                         <CustomButton
                             key={i}
                             label={name}
-                            onMainClick={() => GetProxies(name)}
+                            onMainClick={() => handleClick(i, name)}
                             onIconClick={() => alert("辅助功能触发！")}
+                            selected = {selectedKey === i ? true : false}
                             icon = {<SettingOutlined />}
                         />
                     </Col>

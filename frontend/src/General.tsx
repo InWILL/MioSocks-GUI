@@ -75,7 +75,13 @@ export default function Menu_General() {
         {
             title: 'Home Directory',
             tooltip: '配置文件目录',
-            control: <Button type="link" icon={<FolderOpenOutlined />}>Open Folder</Button>
+            control: 
+            <Button 
+                type="link" 
+                icon={<FolderOpenOutlined />}
+            >
+                Open Folder
+            </Button>
         },
         {
             title: 'System Proxy',

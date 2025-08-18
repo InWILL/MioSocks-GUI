@@ -5,6 +5,7 @@ type CustomButtonType = {
     label: string;
     onMainClick: () => void;
     onIconClick: () => void;
+    selected?: boolean;
     icon?: React.ReactNode;
 };
 
@@ -12,6 +13,7 @@ export const CustomButton: React.FC<CustomButtonType> = ({
   label,
   onMainClick,
   onIconClick,
+  selected = false,
   icon,
 }) => {
   return (
@@ -19,14 +21,20 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         style={{
             display: "inline-flex",
             border: "1px solid #d9d9d9",
-            borderRadius: 6,
+            borderRadius: 5,
             overflow: "hidden",
             width: "100%",
         }}
     >
         {/* 主功能按钮 */}
+        <div
+            style={{
+                backgroundColor: selected ? '#22B14C' : '#C3C3C3',
+                width: 10,
+            }}
+        />
         <Button
-            type="default"
+            type="text"
             onClick={onMainClick}
             style={{
             border: "none",
@@ -39,7 +47,7 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         </Button>
         {/* 辅助功能按钮（带图标） */}
         <Button
-            type="default"
+            type="text"
             icon={icon}
             onClick={(e) => {
             e.stopPropagation(); // 防止触发主功能

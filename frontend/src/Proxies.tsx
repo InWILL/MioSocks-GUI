@@ -14,6 +14,12 @@ const UpdateProxy = (index : number) => {
 
 export default function Menu_Proxies() {
     const [msg, setMsg] = useState<string[]>([]);
+    const [selectedKey, setSelectedKey] = useState<number | null>(null);
+
+    const handleClick = (key: number) => {
+        setSelectedKey(key);
+    }
+
     useEffect(() => {
         const ParseProxies = async () => {
             try{
@@ -37,8 +43,9 @@ export default function Menu_Proxies() {
                     <CustomButton
                         key = {i}
                         label = {name}
-                        onMainClick = {() => UpdateProxy(i)}
+                        onMainClick = {() => handleClick(i)}
                         onIconClick = {() => alert("辅助功能触发！")}
+                        selected = {selectedKey === i ? true : false}
                         icon = {<ThunderboltOutlined />}
                     />
                 </Col>
