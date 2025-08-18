@@ -78,6 +78,24 @@ func main() {
 		systemTray.SetTemplateIcon(icons.SystrayMacTemplate)
 	}
 
+	myMenu := app.NewMenu()
+	//myMenu.Add("Wails").SetBitmap(logo).SetEnabled(false)
+	myMenu.Add("Hidden").SetHidden(true)
+
+	myMenu.Add("Hello World!").OnClick(func(ctx *application.Context) {
+		println("Hello World!")
+		q := application.QuestionDialog().SetTitle("Ready?").SetMessage("Are you feeling ready?")
+		q.AddButton("Yes").OnClick(func() {
+			println("Awesome!")
+		})
+		q.AddButton("No").SetAsDefault().OnClick(func() {
+			println("Boo!")
+		})
+		q.Show()
+	})
+
+	systemTray.SetMenu(myMenu)
+
 	// service.Start()
 	// go service.GetStream()
 
