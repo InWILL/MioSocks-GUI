@@ -6,18 +6,13 @@ import { ThunderboltOutlined } from '@ant-design/icons';
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
-const style: React.CSSProperties = { background: '#e9e9e9', padding: '8px 0' };
-
-const UpdateProxy = (index : number) => {
-    //MioService.UpdateProxy(index)
-}
-
 export default function Menu_Proxies() {
     const [msg, setMsg] = useState<string[]>([]);
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
 
     const handleClick = (key: number) => {
         setSelectedKey(key);
+        //MioService.UpdateProxy(index)
     }
 
     useEffect(() => {

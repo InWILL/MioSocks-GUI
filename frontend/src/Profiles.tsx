@@ -5,8 +5,6 @@ import { CopyOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icon
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
-const style: React.CSSProperties = { background: '#e9e9e9', padding: '10px 0' };
-
 const Download = async (url: string) => {
     const result: string = await MioService.Download(url, "test.yaml")
     alert(result)
