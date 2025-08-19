@@ -11,23 +11,44 @@ type Profile struct {
 	Proxies []map[string]any `yaml:"proxies"`
 }
 
+type ProfileList struct {
+	URL      string `yaml:"url,omitempty"`
+	Time     string `yaml:"time"`
+	Name     string `yaml:"name"`
+	Selected uint   `yaml:"selected,omitempty"`
+}
+
+type Config struct {
+	Port     uint16        `yaml:"port,omitempty"`
+	AllowLAN bool          `yaml:"allow-lan,omitempty"`
+	Rule     string        `yaml:"rule,omitempty"`
+	Profiles []ProfileList `yaml:"profiles"`
+}
+
 type MioService struct {
-	profiles []string
-	profile  Profile
+	config  Config
+	profile Profile
 	// service  service.MioService
 }
 
 func (m *MioService) GetProfiles() []string {
-	dir, err := os.ReadDir("./profiles")
+	data, err := os.ReadFile("settings.yaml")
 	if err != nil {
 		panic(err)
 	}
 
-	m.profiles = make([]string, len(dir))
-	for i, e := range dir {
-		m.profiles[i] = e.Name()
+	m.config = Config{}
+	err = yaml.Unmarshal(data, &m.config)
+	if err != nil {
+		panic(err)
 	}
-	return m.profiles
+	fmt.Println(m.config)
+
+	result := make([]string, len(m.config.Profiles))
+	for i, item := range m.config.Profiles {
+		result[i] = item.Time
+	}
+	return result
 }
 
 func (m *MioService) GetProxies(file string) int {
