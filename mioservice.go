@@ -23,7 +23,7 @@ type Config struct {
 	AllowLAN bool          `yaml:"allow-lan,omitempty"`
 	Rule     string        `yaml:"rule,omitempty"`
 	Profiles []ProfileList `yaml:"profiles"`
-	Selected uint          `yaml:"selected,omitempty"`
+	Selected *uint         `yaml:"selected,omitempty"`
 }
 
 type MioService struct {
@@ -54,6 +54,10 @@ func (m *MioService) GetAllowLAN() bool {
 	return m.config.AllowLAN
 }
 
+func (m *MioService) GetSelectedProfile() *uint {
+	return m.config.Selected
+}
+
 func (m *MioService) GetProfiles() []string {
 	data, err := os.ReadFile("settings.yaml")
 	if err != nil {
@@ -74,7 +78,12 @@ func (m *MioService) GetProfiles() []string {
 	return result
 }
 
-func (m *MioService) GetProxies(file string) int {
+func (m *MioService) GetProxies() int {
+	if m.config.Selected == nil {
+		return 0
+	}
+	index := *m.config.Selected
+	file := m.config.Profiles[index].Time
 	data, err := os.ReadFile("./profiles/" + file)
 	if err != nil {
 		panic(err)

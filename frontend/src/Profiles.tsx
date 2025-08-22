@@ -20,6 +20,12 @@ export default function Menu_Profiles() {
          const fetchData = async () => {
             const result: string[] = await MioService.GetProfiles();
             setMsg(result);
+
+            const selected: number|null = await MioService.GetSelectedProfile();
+            if(selected != null) {
+                setSelectedKey(selected);
+                MioService.GetProxies();
+            }
         };
         fetchData();
     }, []);
@@ -28,7 +34,7 @@ export default function Menu_Profiles() {
         if (selectedKey === key) return;
 
         setSelectedKey(key);
-        MioService.GetProxies(name);
+        MioService.GetProxies();
     }
 
     const handleCopyClick = async () => {

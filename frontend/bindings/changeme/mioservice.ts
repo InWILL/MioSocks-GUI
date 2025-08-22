@@ -27,8 +27,12 @@ export function GetProfiles(): $CancellablePromise<string[]> {
     });
 }
 
-export function GetProxies(file: string): $CancellablePromise<number> {
-    return $Call.ByID(1268542794, file);
+export function GetProxies(): $CancellablePromise<number> {
+    return $Call.ByID(1268542794);
+}
+
+export function GetSelectedProfile(): $CancellablePromise<number | null> {
+    return $Call.ByID(2568240376);
 }
 
 export function ParseProxies(): $CancellablePromise<string[]> {
