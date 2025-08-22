@@ -23,12 +23,35 @@ type Config struct {
 	AllowLAN bool          `yaml:"allow-lan,omitempty"`
 	Rule     string        `yaml:"rule,omitempty"`
 	Profiles []ProfileList `yaml:"profiles"`
+	Selected uint          `yaml:"selected,omitempty"`
 }
 
 type MioService struct {
 	config  Config
 	profile Profile
 	// service  service.MioService
+}
+
+func (m *MioService) GetConfig() error {
+	data, err := os.ReadFile("settings.yaml")
+	if err != nil {
+		panic(err)
+	}
+
+	m.config = Config{}
+	err = yaml.Unmarshal(data, &m.config)
+	if err != nil {
+		panic(err)
+	}
+	return err
+}
+
+func (m *MioService) GetPort() uint16 {
+	return m.config.Port
+}
+
+func (m *MioService) GetAllowLAN() bool {
+	return m.config.AllowLAN
 }
 
 func (m *MioService) GetProfiles() []string {

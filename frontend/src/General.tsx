@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { List, Switch, Button, Tooltip, Typography, Modal, InputNumber } from "antd"
 import { InfoCircleOutlined, FolderOpenOutlined } from '@ant-design/icons';
+import { MioService } from '../bindings/changeme';
 const { Text } = Typography;
 
 export default function Menu_General() {
     const [Socks5Disabled, setSocks5Disabled] = useState<boolean>(false);
     const [Socks5Modal, setSocks5Modal] = useState<boolean>(false);
-    const [Socks5Port, setSocks5Port] = useState<number>(2801);
-    const [tempPort, setTempPort] = useState<number>(Socks5Port);
+    const [Socks5Port, setSocks5Port] = useState<number | null>(null);
+    const [tempPort, setTempPort] = useState<number | null>(Socks5Port);
+    const [AllowLAN, setAllowLAN] = useState<boolean>(false);
 
     const handleSocks5Modal = () => {
         setSocks5Modal(false);
@@ -40,12 +42,12 @@ export default function Menu_General() {
                     <InputNumber
                         min={1}
                         max={65535}
-                        defaultValue={2801}
+                        defaultValue={Socks5Port}
                         onChange = {(val: number) => {setTempPort(val)}}
                     >
                     </InputNumber>
                 </Modal>
-                <Switch defaultChecked={true} onChange={Socks5Switch}/>
+                <Switch checked={!Socks5Disabled} onChange={Socks5Switch}/>
             </div>
         },
         {
@@ -53,8 +55,9 @@ export default function Menu_General() {
             tooltip: '允许局域网设备连接',
             control: 
             <Switch 
-                defaultChecked={false} 
+                checked={AllowLAN} 
                 disabled={Socks5Disabled}
+                onChange={(checked: boolean) => setAllowLAN(checked)}
             />
         },
         {
@@ -89,6 +92,24 @@ export default function Menu_General() {
             control: <Switch defaultChecked={false} />
         }
     ];
+
+    useEffect(
+        () => {
+            MioService.GetPort().then(
+                (port: number) => {
+                    setSocks5Port(port);
+                    setTempPort(port);
+                }
+            );
+            MioService.GetAllowLAN().then(
+                (lan: boolean) => {
+                    setAllowLAN(lan);
+                }
+            );
+        }, 
+        []
+    );
+
     return (
     <List
         itemLayout="horizontal"

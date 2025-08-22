@@ -9,6 +9,18 @@ export function Download(url: string, name: string): $CancellablePromise<string>
     return $Call.ByID(3367144066, url, name);
 }
 
+export function GetAllowLAN(): $CancellablePromise<boolean> {
+    return $Call.ByID(683052846);
+}
+
+export function GetConfig(): $CancellablePromise<void> {
+    return $Call.ByID(2434248008);
+}
+
+export function GetPort(): $CancellablePromise<number> {
+    return $Call.ByID(1688648537);
+}
+
 export function GetProfiles(): $CancellablePromise<string[]> {
     return $Call.ByID(2493533808).then(($result: any) => {
         return $$createType0($result);

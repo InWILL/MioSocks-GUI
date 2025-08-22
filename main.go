@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	_ "embed"
 	"log"
 	"runtime"
 	"time"
@@ -26,6 +25,7 @@ var app *application.App
 // logs any error that might occur.
 func main() {
 	service := &MioService{}
+	service.GetConfig()
 
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.
