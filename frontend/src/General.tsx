@@ -42,7 +42,7 @@ export default function Menu_General() {
                     <InputNumber
                         min={1}
                         max={65535}
-                        defaultValue={Socks5Port}
+                        value={tempPort}
                         onChange = {(val: number) => {setTempPort(val)}}
                     >
                     </InputNumber>
