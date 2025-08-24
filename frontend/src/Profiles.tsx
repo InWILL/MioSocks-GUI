@@ -17,7 +17,7 @@ export default function Menu_Profiles() {
     const [CopyClicked, setCopyClicked] = useState<boolean>(false);
 
     useEffect(() => {
-         const fetchData = async () => {
+        const fetchData = async () => {
             const result: string[] = await MioService.GetProfiles();
             setMsg(result);
 
@@ -30,11 +30,13 @@ export default function Menu_Profiles() {
         fetchData();
     }, []);
 
-    const handleClick = (key: number, name: string) => {
+    const handleClick = async (key: number) => {
         if (selectedKey === key) return;
 
         setSelectedKey(key);
-        MioService.GetProxies();
+        await MioService.UpdateSelectedProfile(key);
+        await MioService.ReadProxies();
+        await MioService.GetProxies();
     }
 
     const handleCopyClick = async () => {
@@ -86,7 +88,7 @@ export default function Menu_Profiles() {
                         <CustomButton
                             key={i}
                             label={name}
-                            onMainClick={() => handleClick(i, name)}
+                            onMainClick={() => handleClick(i)}
                             onIconClick={() => alert("辅助功能触发！")}
                             selected = {selectedKey === i ? true : false}
                             icon = {<SettingOutlined />}

@@ -13,11 +13,7 @@ export function GetAllowLAN(): $CancellablePromise<boolean> {
     return $Call.ByID(683052846);
 }
 
-export function GetConfig(): $CancellablePromise<void> {
-    return $Call.ByID(2434248008);
-}
-
-export function GetPort(): $CancellablePromise<number> {
+export function GetPort(): $CancellablePromise<number | null> {
     return $Call.ByID(1688648537);
 }
 
@@ -27,18 +23,38 @@ export function GetProfiles(): $CancellablePromise<string[]> {
     });
 }
 
-export function GetProxies(): $CancellablePromise<number> {
-    return $Call.ByID(1268542794);
+export function GetProxies(): $CancellablePromise<string[]> {
+    return $Call.ByID(1268542794).then(($result: any) => {
+        return $$createType0($result);
+    });
 }
 
 export function GetSelectedProfile(): $CancellablePromise<number | null> {
     return $Call.ByID(2568240376);
 }
 
-export function ParseProxies(): $CancellablePromise<string[]> {
-    return $Call.ByID(2672512555).then(($result: any) => {
-        return $$createType0($result);
-    });
+export function GetSelectedProxy(): $CancellablePromise<number | null> {
+    return $Call.ByID(2623271121);
+}
+
+export function ReadProfiles(): $CancellablePromise<number | null> {
+    return $Call.ByID(863810156);
+}
+
+export function ReadProxies(): $CancellablePromise<number | null> {
+    return $Call.ByID(1915616478);
+}
+
+export function UpdateSelectedProfile(index: number | null): $CancellablePromise<void> {
+    return $Call.ByID(3010063943, index);
+}
+
+export function UpdateSelectedProxy(index: number | null): $CancellablePromise<void> {
+    return $Call.ByID(189746918, index);
+}
+
+export function WriteProfiles(): $CancellablePromise<void> {
+    return $Call.ByID(405335087);
 }
 
 // Private type creation functions

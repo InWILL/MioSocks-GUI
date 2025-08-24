@@ -15,11 +15,11 @@ type ProfileList struct {
 	URL      string `yaml:"url,omitempty"`
 	Time     string `yaml:"time"`
 	Name     string `yaml:"name"`
-	Selected uint   `yaml:"selected,omitempty"`
+	Selected *uint  `yaml:"selected,omitempty"`
 }
 
 type Config struct {
-	Port     uint16        `yaml:"port,omitempty"`
+	Port     *uint16       `yaml:"port,omitempty"`
 	AllowLAN bool          `yaml:"allow-lan,omitempty"`
 	Rule     string        `yaml:"rule,omitempty"`
 	Profiles []ProfileList `yaml:"profiles"`
@@ -32,21 +32,7 @@ type MioService struct {
 	// service  service.MioService
 }
 
-func (m *MioService) GetConfig() error {
-	data, err := os.ReadFile("settings.yaml")
-	if err != nil {
-		panic(err)
-	}
-
-	m.config = Config{}
-	err = yaml.Unmarshal(data, &m.config)
-	if err != nil {
-		panic(err)
-	}
-	return err
-}
-
-func (m *MioService) GetPort() uint16 {
+func (m *MioService) GetPort() *uint16 {
 	return m.config.Port
 }
 
@@ -58,7 +44,33 @@ func (m *MioService) GetSelectedProfile() *uint {
 	return m.config.Selected
 }
 
-func (m *MioService) GetProfiles() []string {
+func (m *MioService) GetSelectedProxy() *uint {
+	if m.config.Selected == nil {
+		return nil
+	}
+	return m.config.Profiles[*m.config.Selected].Selected
+}
+
+func (m *MioService) UpdateSelectedProfile(index *uint) {
+	m.config.Selected = index
+	//m.WriteProfiles()
+}
+
+func (m *MioService) UpdateSelectedProxy(index *uint) {
+	i := *m.config.Selected
+	m.config.Profiles[i].Selected = index
+	//m.WriteProfiles()
+}
+
+func (m *MioService) WriteProfiles() {
+	data, err := yaml.Marshal(&m.config)
+	if err != nil {
+		panic(err)
+	}
+	os.WriteFile("settings.yaml", data, 0644)
+}
+
+func (m *MioService) ReadProfiles() *uint {
 	data, err := os.ReadFile("settings.yaml")
 	if err != nil {
 		panic(err)
@@ -69,8 +81,10 @@ func (m *MioService) GetProfiles() []string {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(m.config)
+	return m.config.Selected
+}
 
+func (m *MioService) GetProfiles() []string {
 	result := make([]string, len(m.config.Profiles))
 	for i, item := range m.config.Profiles {
 		result[i] = item.Time
@@ -78,9 +92,9 @@ func (m *MioService) GetProfiles() []string {
 	return result
 }
 
-func (m *MioService) GetProxies() int {
+func (m *MioService) ReadProxies() *uint {
 	if m.config.Selected == nil {
-		return 0
+		return nil
 	}
 	index := *m.config.Selected
 	file := m.config.Profiles[index].Time
@@ -94,20 +108,19 @@ func (m *MioService) GetProxies() int {
 	if err != nil {
 		panic(err)
 	}
-	return len(m.profile.Proxies)
+	return m.config.Profiles[index].Selected
 }
 
-func (m *MioService) ParseProxies() []string {
-	name := make([]string, len(m.profile.Proxies))
+func (m *MioService) GetProxies() []string {
+	result := make([]string, len(m.profile.Proxies))
 	for i, item := range m.profile.Proxies {
-		if n, ok := item["name"].(string); ok {
-			name[i] = n
+		if name, ok := item["name"].(string); ok {
+			result[i] = name
 		} else {
-			name[i] = ""
+			result[i] = ""
 		}
 	}
-	fmt.Println(name)
-	return name
+	return result
 }
 
 // func (m *MioService) Start() {

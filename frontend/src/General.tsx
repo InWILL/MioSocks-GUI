@@ -5,7 +5,7 @@ import { MioService } from '../bindings/changeme';
 const { Text } = Typography;
 
 export default function Menu_General() {
-    const [Socks5Disabled, setSocks5Disabled] = useState<boolean>(false);
+    const [Socks5Disabled, setSocks5Disabled] = useState<boolean>(true);
     const [Socks5Modal, setSocks5Modal] = useState<boolean>(false);
     const [Socks5Port, setSocks5Port] = useState<number | null>(null);
     const [tempPort, setTempPort] = useState<number | null>(Socks5Port);
@@ -93,22 +93,18 @@ export default function Menu_General() {
         }
     ];
 
-    useEffect(
-        () => {
-            MioService.GetPort().then(
-                (port: number) => {
-                    setSocks5Port(port);
-                    setTempPort(port);
-                }
-            );
-            MioService.GetAllowLAN().then(
-                (lan: boolean) => {
-                    setAllowLAN(lan);
-                }
-            );
-        }, 
-        []
-    );
+    useEffect(() => {
+        const GetConfig = async () => {
+            const port: number|null = await MioService.GetPort();
+            const allowlan: boolean = await MioService.GetAllowLAN();
+            if(port == null) return;
+            setSocks5Disabled(false);
+            setSocks5Port(port);
+            setTempPort(port);
+            setAllowLAN(allowlan);
+        }
+        GetConfig();
+    }, []);
 
     return (
     <List

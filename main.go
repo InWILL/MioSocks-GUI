@@ -25,7 +25,8 @@ var app *application.App
 // logs any error that might occur.
 func main() {
 	service := &MioService{}
-	service.GetConfig()
+	service.ReadProfiles()
+	service.ReadProxies()
 
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.

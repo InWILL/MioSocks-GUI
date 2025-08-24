@@ -7,26 +7,30 @@ import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
 export default function Menu_Proxies() {
-    const [msg, setMsg] = useState<string[]>([]);
+    const [proxies, setProxies] = useState<string[]>([]);
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
 
-    const handleClick = (key: number) => {
+    const handleClick = async (key: number|null) => {
         if (selectedKey === key) return;
 
         setSelectedKey(key);
+        await MioService.UpdateSelectedProxy(key);
         //MioService.UpdateProxy(index)
     }
 
     useEffect(() => {
-        const ParseProxies = async () => {
+        const GetProxies = async () => {
             try{
-                const result: string[] = await MioService.ParseProxies();
-                setMsg(result);
+                const result: string[] = await MioService.GetProxies();
+                setProxies(result);
+
+                const index: number|null = await MioService.GetSelectedProxy();
+                setSelectedKey(index);
             } catch(err) {
                 console.error("Failed to parse proxies:", err);
             }
         };
-        ParseProxies();
+        GetProxies();
         }, []
     );
     
@@ -35,7 +39,7 @@ export default function Menu_Proxies() {
         <Divider orientation="left">Server</Divider>
         <Row gutter={[12, 12]}>
         {
-            msg.map((name, i) => (
+            proxies.map((name, i) => (
                 <Col className="gutter-row" span={12}>
                     <CustomButton
                         key = {i}
