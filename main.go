@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v3/pkg/events"
 	"github.com/wailsapp/wails/v3/pkg/icons"
 )
 
@@ -54,7 +55,7 @@ func main() {
 	// 'Mac' options tailor the window when running on macOS.
 	// 'BackgroundColour' is the background colour of the window.
 	// 'URL' is the URL that will be loaded into the webview.
-	app.Window.NewWithOptions(application.WebviewWindowOptions{
+	window := app.Window.NewWithOptions(application.WebviewWindowOptions{
 		Title: "MioSocks-GUI",
 		Mac: application.MacWindow{
 			InvisibleTitleBarHeight: 50,
@@ -63,6 +64,11 @@ func main() {
 		},
 		BackgroundColour: application.NewRGB(27, 38, 54),
 		URL:              "/",
+	})
+
+	window.RegisterHook(events.Common.WindowClosing, func(e *application.WindowEvent) {
+		window.Hide()
+		e.Cancel()
 	})
 
 	// Create a goroutine that emits an event containing the current time every second.
@@ -79,23 +85,19 @@ func main() {
 		systemTray.SetTemplateIcon(icons.SystrayMacTemplate)
 	}
 
-	myMenu := app.NewMenu()
+	menu := app.NewMenu()
 	//myMenu.Add("Wails").SetBitmap(logo).SetEnabled(false)
-	myMenu.Add("Hidden").SetHidden(true)
-
-	myMenu.Add("Hello World!").OnClick(func(ctx *application.Context) {
-		println("Hello World!")
-		q := application.QuestionDialog().SetTitle("Ready?").SetMessage("Are you feeling ready?")
-		q.AddButton("Yes").OnClick(func() {
-			println("Awesome!")
-		})
-		q.AddButton("No").SetAsDefault().OnClick(func() {
-			println("Boo!")
-		})
-		q.Show()
+	menu.Add("Quit").OnClick(func(ctx *application.Context) {
+		app.Quit()
 	})
 
-	systemTray.SetMenu(myMenu)
+	systemTray.SetMenu(menu)
+	systemTray.OnClick(func() {
+		window.Show()
+	})
+	systemTray.OnRightClick(func() {
+		systemTray.OpenMenu()
+	})
 
 	// service.Start()
 	// go service.GetStream()

@@ -60,6 +60,9 @@ function App() {
                 <Menu.Item key="Profiles" >
                     Profiles
                 </Menu.Item>
+                <Menu.Item key="Rules" >
+                    Rules
+                </Menu.Item>
                 <Menu.Item key="Logs" >
                     Logs
                 </Menu.Item>
