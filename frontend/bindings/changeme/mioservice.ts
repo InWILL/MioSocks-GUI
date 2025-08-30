@@ -23,9 +23,11 @@ export function GetProfiles(): $CancellablePromise<string[]> {
     });
 }
 
-export function GetProxies(): $CancellablePromise<string[]> {
+export function GetProxies(): $CancellablePromise<[string[], string[]]> {
     return $Call.ByID(1268542794).then(($result: any) => {
-        return $$createType0($result);
+        $result[0] = $$createType0($result[0]);
+        $result[1] = $$createType0($result[1]);
+        return $result;
     });
 }
 

@@ -1,8 +1,11 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
+
+
 
 type CustomButtonType = {
     label: string;
+    type?: string;
     onMainClick: () => void;
     onIconClick: () => void;
     selected?: boolean;
@@ -11,6 +14,7 @@ type CustomButtonType = {
 
 export const CustomButton: React.FC<CustomButtonType> = ({
   label,
+  type,
   onMainClick,
   onIconClick,
   selected = false,
@@ -36,13 +40,23 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         <Button
             onClick={onMainClick}
             style={{
+            display: "block",
+            textAlign: "left",
             border: "none",
             borderRadius: 0,
             flex: 1,
             padding: 0,
+            height: 45,
             }}
         >
-            {label}
+            <div>{label}</div>
+            <div
+            style={{
+                color: "#999",
+            }}
+            >
+            {type}
+            </div>
         </Button>
         {/* 辅助功能按钮（带图标） */}
         <Button
@@ -56,6 +70,7 @@ export const CustomButton: React.FC<CustomButtonType> = ({
             borderLeft: "1px solid #d9d9d9",
             borderRadius: 0,
             width: 40,
+            height: 45,
             }}
         />
     </div>

@@ -8,6 +8,7 @@ import { MioService } from '../bindings/changeme'
 
 export default function Menu_Proxies() {
     const [proxies, setProxies] = useState<string[]>([]);
+    const [types, setTypes] = useState<string[]>([]);
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
 
     const handleClick = async (key: number|null) => {
@@ -21,8 +22,9 @@ export default function Menu_Proxies() {
     useEffect(() => {
         const GetProxies = async () => {
             try{
-                const result: string[] = await MioService.GetProxies();
-                setProxies(result);
+                const [name, type] = await MioService.GetProxies();
+                setProxies(name);
+                setTypes(type);
 
                 const index: number|null = await MioService.GetSelectedProxy();
                 setSelectedKey(index);
@@ -44,6 +46,7 @@ export default function Menu_Proxies() {
                     <CustomButton
                         key = {i}
                         label = {name}
+                        type = {types[i]}
                         onMainClick = {() => handleClick(i)}
                         onIconClick = {() => alert("辅助功能触发！")}
                         selected = {selectedKey === i ? true : false}

@@ -111,16 +111,22 @@ func (m *MioService) ReadProxies() *uint {
 	return m.config.Profiles[index].Selected
 }
 
-func (m *MioService) GetProxies() []string {
-	result := make([]string, len(m.profile.Proxies))
+func (m *MioService) GetProxies() ([]string, []string) {
+	name := make([]string, len(m.profile.Proxies))
+	proto := make([]string, len(m.profile.Proxies))
 	for i, item := range m.profile.Proxies {
-		if name, ok := item["name"].(string); ok {
-			result[i] = name
+		if result, ok := item["name"].(string); ok {
+			name[i] = result
 		} else {
-			result[i] = ""
+			name[i] = ""
+		}
+		if result, ok := item["type"].(string); ok {
+			proto[i] = result
+		} else {
+			proto[i] = ""
 		}
 	}
-	return result
+	return name, proto
 }
 
 // func (m *MioService) Start() {
