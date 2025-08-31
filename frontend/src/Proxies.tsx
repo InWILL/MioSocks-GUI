@@ -41,19 +41,30 @@ export default function Menu_Proxies() {
         <Divider orientation="left">Server</Divider>
         <Row gutter={[12, 12]}>
         {
-            proxies.map((name, i) => (
+            [
                 <Col className="gutter-row" span={12}>
                     <CustomButton
-                        key = {i}
-                        label = {name}
-                        type = {types[i]}
-                        onMainClick = {() => handleClick(i)}
+                        label = {"Direct"}
+                        onMainClick = {() => handleClick(null)}
                         onIconClick = {() => alert("辅助功能触发！")}
-                        selected = {selectedKey === i ? true : false}
+                        selected = {selectedKey === null ? true : false}
                         icon = {<ThunderboltOutlined />}
                     />
-                </Col>
-            ))
+                </Col>,
+                proxies.map((name, i) => (
+                    <Col className="gutter-row" span={12}>
+                        <CustomButton
+                            key = {i}
+                            label = {name}
+                            type = {types[i]}
+                            onMainClick = {() => handleClick(i)}
+                            onIconClick = {() => alert("辅助功能触发！")}
+                            selected = {selectedKey === i ? true : false}
+                            icon = {<ThunderboltOutlined />}
+                        />
+                    </Col>
+                ))
+            ]
         }
         </Row>
         <Divider orientation="left">Rules</Divider>
