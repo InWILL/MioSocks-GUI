@@ -25,7 +25,7 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         style={{
             display: "inline-flex",
             border: "1px solid #d9d9d9",
-            borderRadius: 0,
+            borderRadius: 3,
             overflow: "hidden",
             width: "100%",
         }}

@@ -24,7 +24,6 @@ export default function Menu_Profiles() {
             const selected: number|null = await MioService.GetSelectedProfile();
             if(selected != null) {
                 setSelectedKey(selected);
-                MioService.GetProxies();
             }
         };
         fetchData();
