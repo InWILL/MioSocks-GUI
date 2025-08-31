@@ -67,7 +67,6 @@ export default function Menu_Proxies() {
             ]
         }
         </Row>
-        <Divider orientation="left">Rules</Divider>
       </div>
     )
 }

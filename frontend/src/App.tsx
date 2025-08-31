@@ -54,11 +54,11 @@ function App() {
                 <Menu.Item key="General">
                     General
                 </Menu.Item>
-                <Menu.Item key="Proxies" >
-                    Proxies
-                </Menu.Item>
                 <Menu.Item key="Profiles" >
                     Profiles
+                </Menu.Item>
+                <Menu.Item key="Proxies" >
+                    Proxies
                 </Menu.Item>
                 <Menu.Item key="Rules" >
                     Rules
