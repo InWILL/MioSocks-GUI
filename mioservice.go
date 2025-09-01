@@ -21,7 +21,7 @@ type ProfileList struct {
 type Config struct {
 	Port     *uint16       `yaml:"port,omitempty"`
 	AllowLAN bool          `yaml:"allow-lan,omitempty"`
-	Rule     string        `yaml:"rule,omitempty"`
+	Rule     *string       `yaml:"rule,omitempty"`
 	Profiles []ProfileList `yaml:"profiles"`
 	Selected *uint         `yaml:"selected,omitempty"`
 }
@@ -29,6 +29,7 @@ type Config struct {
 type MioService struct {
 	config  Config
 	profile Profile
+	rules   []string
 	// service  service.MioService
 }
 
@@ -127,6 +128,26 @@ func (m *MioService) GetProxies() ([]string, []string) {
 		}
 	}
 	return name, proto
+}
+
+func (m *MioService) ReadRules() {
+	dir, err := os.ReadDir("./rules")
+	if err != nil {
+		panic(err)
+	}
+
+	m.rules = make([]string, len(dir))
+	for i, file := range dir {
+		m.rules[i] = file.Name()
+	}
+}
+
+func (m *MioService) GetRules() []string {
+	return m.rules
+}
+
+func (m *MioService) GetSelectedRule() *string {
+	return m.config.Rule
 }
 
 // func (m *MioService) Start() {

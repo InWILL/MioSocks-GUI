@@ -31,6 +31,12 @@ export function GetProxies(): $CancellablePromise<[string[], string[]]> {
     });
 }
 
+export function GetRules(): $CancellablePromise<string[]> {
+    return $Call.ByID(192794241).then(($result: any) => {
+        return $$createType0($result);
+    });
+}
+
 export function GetSelectedProfile(): $CancellablePromise<number | null> {
     return $Call.ByID(2568240376);
 }
@@ -39,12 +45,20 @@ export function GetSelectedProxy(): $CancellablePromise<number | null> {
     return $Call.ByID(2623271121);
 }
 
+export function GetSelectedRule(): $CancellablePromise<string | null> {
+    return $Call.ByID(2160096249);
+}
+
 export function ReadProfiles(): $CancellablePromise<number | null> {
     return $Call.ByID(863810156);
 }
 
 export function ReadProxies(): $CancellablePromise<number | null> {
     return $Call.ByID(1915616478);
+}
+
+export function ReadRules(): $CancellablePromise<void> {
+    return $Call.ByID(2112506669);
 }
 
 export function UpdateSelectedProfile(index: number | null): $CancellablePromise<void> {

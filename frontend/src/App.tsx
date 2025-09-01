@@ -3,8 +3,9 @@ import { Events } from '@wailsio/runtime';
 
 import { Layout, Menu } from "antd"
 import Menu_General from './General'
-import Menu_Proxies from './Proxies'
 import Menu_Profiles from './Profiles'
+import Menu_Proxies from './Proxies'
+import Menu_Rules from './Rules';
 
 const { Sider, Content } = Layout;
 
@@ -31,10 +32,12 @@ function App() {
     switch (current) {
       case 'General':
         return <Menu_General />;
-      case 'Proxies':
-        return <Menu_Proxies />;
       case 'Profiles':
         return <Menu_Profiles />;
+      case 'Proxies':
+        return <Menu_Proxies />;
+      case 'Rules':
+        return <Menu_Rules />;
       case 'Logs':
         return <div>设置选项2的内容</div>;
       default:

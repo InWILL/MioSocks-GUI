@@ -28,6 +28,7 @@ func main() {
 	service := &MioService{}
 	service.ReadProfiles()
 	service.ReadProxies()
+	service.ReadRules()
 
 	// Create a new Wails application by providing the necessary options.
 	// Variables 'Name' and 'Description' are for application metadata.
