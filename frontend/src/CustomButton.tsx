@@ -7,7 +7,7 @@ type CustomButtonType = {
     label: string;
     type?: string;
     onMainClick: () => void;
-    onIconClick: () => void;
+    onIconClick?: () => void;
     selected?: boolean;
     icon?: React.ReactNode;
 };
@@ -61,9 +61,10 @@ export const CustomButton: React.FC<CustomButtonType> = ({
         {/* 辅助功能按钮（带图标） */}
         <Button
             icon={icon}
+            disabled = {onIconClick ? false : true}
             onClick={(e) => {
-            e.stopPropagation(); // 防止触发主功能
-            onIconClick?.();
+                e.stopPropagation(); // 防止触发主功能
+                onIconClick?.();
             }}
             style={{
             border: "none",
