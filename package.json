@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "antd": "^5.27.0"
+    "@monaco-editor/react": "^4.7.0",
+    "antd": "^5.27.0",
+    "monaco-editor": "^0.52.2",
+    "monaco-yaml": "^5.4.0"
   }
 }

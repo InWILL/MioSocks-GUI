@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Col, Divider, Row, Button } from 'antd';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
@@ -31,6 +31,10 @@ export default function Menu_Rules() {
         <div>
             <Divider orientation="left">
                 Rules
+                <Button 
+                    icon={<PlusOutlined />}
+                    type='text'
+                />
             </Divider>
             <Row gutter={[12, 12]}>
             {
