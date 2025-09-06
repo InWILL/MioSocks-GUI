@@ -150,6 +150,18 @@ func (m *MioService) GetSelectedRule() *string {
 	return m.config.Rule
 }
 
+func (m *MioService) ReadRule(name string) string {
+	data, err := os.ReadFile("./rules/" + name)
+	if err != nil {
+		panic(err)
+	}
+	return string(data)
+}
+
+func (m *MioService) WriteRule(name string, content string) {
+	os.WriteFile("./rules/"+name, []byte(content), 0644)
+}
+
 // func (m *MioService) Start() {
 // 	m.service, _ = service.NewService(
 // 		service.MioOptions{

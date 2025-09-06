@@ -57,6 +57,10 @@ export function ReadProxies(): $CancellablePromise<number | null> {
     return $Call.ByID(1915616478);
 }
 
+export function ReadRule(name: string): $CancellablePromise<string> {
+    return $Call.ByID(2571073612, name);
+}
+
 export function ReadRules(): $CancellablePromise<void> {
     return $Call.ByID(2112506669);
 }
@@ -71,6 +75,10 @@ export function UpdateSelectedProxy(index: number | null): $CancellablePromise<v
 
 export function WriteProfiles(): $CancellablePromise<void> {
     return $Call.ByID(405335087);
+}
+
+export function WriteRule(name: string, content: string): $CancellablePromise<void> {
+    return $Call.ByID(2860601211, name, content);
 }
 
 // Private type creation functions

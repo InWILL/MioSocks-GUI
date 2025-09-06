@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row, Button, Modal } from 'antd';
+import { Col, Divider, Row, Button, Modal, Input } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import Editor from "@monaco-editor/react";
 import { CustomButton } from './CustomButton'
@@ -12,12 +12,20 @@ export default function Menu_Rules() {
     const [editorTitle, setEditorTitle] = useState<string>("YAML Editor");
     const [yamlText, setYamlText] = useState<string>("");
 
-    const handleEditor = (title: string) => {
+    const handleAddRule = (title: string) => {
         setEditorTitle(title);
+        setYamlText("");
+        setShowEditor(true);
+    }
+    const handleEditor = async (title: string) => {
+        setEditorTitle(title);
+        const text: string = await MioService.ReadRule(title);
+        setYamlText(text);
         setShowEditor(true);
     }
 
     const handleSave = () => {
+        MioService.WriteRule(editorTitle, yamlText);
         setShowEditor(false);
     }
 
@@ -42,7 +50,17 @@ export default function Menu_Rules() {
     return (
         <div>
             <Modal
-                title={editorTitle}
+                title={
+                    <Input
+                        value={editorTitle}
+                        onChange={(e) => setEditorTitle(e.target.value)}
+                        style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                            border: "none",
+                        }}
+                    />
+                }
                 open={showEditor}
                 onCancel={() => setShowEditor(false)}
                 onOk={handleSave}
@@ -62,7 +80,7 @@ export default function Menu_Rules() {
                 <Button 
                     icon={<PlusOutlined />}
                     type='text'
-                    onClick={() => handleEditor("New Title")}
+                    onClick={() => handleAddRule("New Title")}
                 />
             </Divider>
             <Row gutter={[12, 12]}>
