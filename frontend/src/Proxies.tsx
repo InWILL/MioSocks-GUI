@@ -42,7 +42,7 @@ export default function Menu_Proxies() {
         <Row gutter={[12, 12]}>
         {
             [
-                <Col className="gutter-row" span={12}>
+                <Col className="gutter-row" sm={12} xl={6}>
                     <CustomButton
                         label = {"Direct"}
                         onMainClick = {() => handleClick(null)}
@@ -52,7 +52,7 @@ export default function Menu_Proxies() {
                     />
                 </Col>,
                 proxies.map((name, i) => (
-                    <Col className="gutter-row" span={12}>
+                    <Col className="gutter-row" sm={12} xl={6}>
                         <CustomButton
                             key = {i}
                             label = {name}

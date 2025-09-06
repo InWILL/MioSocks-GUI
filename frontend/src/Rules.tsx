@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Col, Divider, Row, Button, Modal, Input } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, ScanOutlined } from '@ant-design/icons';
 import Editor from "@monaco-editor/react";
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
@@ -17,6 +17,7 @@ export default function Menu_Rules() {
         setYamlText("");
         setShowEditor(true);
     }
+
     const handleEditor = async (title: string) => {
         setEditorTitle(title);
         const text: string = await MioService.ReadRule(title);
@@ -81,6 +82,11 @@ export default function Menu_Rules() {
                     icon={<PlusOutlined />}
                     type='text'
                     onClick={() => handleAddRule("New Title")}
+                />
+                <Button
+                    icon={<ScanOutlined />}
+                    type='text'
+                    onClick={() => MioService.ScanFolder()}
                 />
             </Divider>
             <Row gutter={[12, 12]}>

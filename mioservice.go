@@ -5,10 +5,15 @@ import (
 	"os"
 
 	"github.com/goccy/go-yaml"
+	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 type Profile struct {
 	Proxies []map[string]any `yaml:"proxies"`
+}
+
+type Rule struct {
+	Process []string `yaml:"process"`
 }
 
 type ProfileList struct {
@@ -160,6 +165,39 @@ func (m *MioService) ReadRule(name string) string {
 
 func (m *MioService) WriteRule(name string, content string) {
 	os.WriteFile("./rules/"+name, []byte(content), 0644)
+}
+
+func (m *MioService) ScanFolder() string {
+	selectedDir, _ := application.OpenFileDialog().
+		CanChooseDirectories(true).
+		CanChooseFiles(false).
+		PromptForSingleSelection()
+	if selectedDir != "" {
+		dir, err := os.ReadDir(selectedDir)
+		if err != nil {
+			panic(err)
+		}
+
+		EXElist := Rule{}
+		for _, file := range dir {
+			name := file.Name()
+			// ext := filepath.Ext(name)
+			// if strings.ToLower(ext) == ".exe" {
+			// 	EXElist.process = append(EXElist.process, name)
+			// }
+			EXElist.Process = append(EXElist.Process, name)
+		}
+
+		data, err := yaml.Marshal(EXElist)
+		if err != nil {
+			panic(err)
+		}
+		application.InfoDialog().SetMessage(string(data)).Show()
+		return string(data)
+	} else {
+		application.InfoDialog().SetMessage("No directory selected").Show()
+	}
+	return ""
 }
 
 // func (m *MioService) Start() {
