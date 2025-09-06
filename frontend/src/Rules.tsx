@@ -25,8 +25,11 @@ export default function Menu_Rules() {
         setShowEditor(true);
     }
 
-    const handleSave = () => {
-        MioService.WriteRule(editorTitle, yamlText);
+    const handleSave = async () => {
+        await MioService.WriteRule(editorTitle, yamlText);
+        await MioService.ReadRules();
+        const rules: string[] = await MioService.GetRules();
+        setRules(rules);
         setShowEditor(false);
     }
 
@@ -48,9 +51,9 @@ export default function Menu_Rules() {
 
     useEffect(() => {
         const GetRules = async () => {
-            const result: string[] = await MioService.GetRules();
+            const rules: string[] = await MioService.GetRules();
             const key: string|null = await MioService.GetSelectedRule();
-            setRules(result);
+            setRules(rules);
             setSelectedKey(key);
         };
         GetRules();
@@ -98,16 +101,15 @@ export default function Menu_Rules() {
                 />
             </Divider>
             <Row gutter={[12, 12]}>
-            {
-                [
-                    <Col className="gutter-row" span={12}>
-                    <CustomButton
-                        label = {"Direct"}
-                        onMainClick = {() => handleClick(null)}
-                        selected = {selectedKey === null ? true : false}
-                        icon = {<EditOutlined />}
-                    />
-                    </Col>,
+                <Col className="gutter-row" span={12}>
+                <CustomButton
+                    label = {"Direct"}
+                    onMainClick = {() => handleClick(null)}
+                    selected = {selectedKey === null ? true : false}
+                    icon = {<EditOutlined />}
+                />
+                </Col>
+                {
                     rules.map((name, i) => (
                         <Col className="gutter-row" span={12}>
                             <CustomButton
@@ -120,8 +122,7 @@ export default function Menu_Rules() {
                             />
                         </Col>
                     ))
-                ]
-            }
+                }
             </Row>
         </div>
     )
