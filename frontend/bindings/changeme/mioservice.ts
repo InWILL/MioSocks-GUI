@@ -65,7 +65,7 @@ export function ReadRules(): $CancellablePromise<void> {
     return $Call.ByID(2112506669);
 }
 
-export function ScanFolder(): $CancellablePromise<string> {
+export function ScanFolder(): $CancellablePromise<string | null> {
     return $Call.ByID(1994113603);
 }
 

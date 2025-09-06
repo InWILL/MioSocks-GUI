@@ -30,6 +30,14 @@ export default function Menu_Rules() {
         setShowEditor(false);
     }
 
+    const handleScan = async () => {
+        const text: string|null = await MioService.ScanFolder();
+        if(text == null) return;
+        setEditorTitle("New Title");
+        setYamlText(text);
+        setShowEditor(true);
+    }
+
     const handleClick = async (key: string|null) => {
         if (selectedKey === key) return;
 
@@ -86,7 +94,7 @@ export default function Menu_Rules() {
                 <Button
                     icon={<ScanOutlined />}
                     type='text'
-                    onClick={() => MioService.ScanFolder()}
+                    onClick={() => handleScan()}
                 />
             </Divider>
             <Row gutter={[12, 12]}>

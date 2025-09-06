@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/goccy/go-yaml"
 	"github.com/wailsapp/wails/v3/pkg/application"
@@ -167,7 +169,7 @@ func (m *MioService) WriteRule(name string, content string) {
 	os.WriteFile("./rules/"+name, []byte(content), 0644)
 }
 
-func (m *MioService) ScanFolder() string {
+func (m *MioService) ScanFolder() *string {
 	selectedDir, _ := application.OpenFileDialog().
 		CanChooseDirectories(true).
 		CanChooseFiles(false).
@@ -181,23 +183,22 @@ func (m *MioService) ScanFolder() string {
 		EXElist := Rule{}
 		for _, file := range dir {
 			name := file.Name()
-			// ext := filepath.Ext(name)
-			// if strings.ToLower(ext) == ".exe" {
-			// 	EXElist.process = append(EXElist.process, name)
-			// }
-			EXElist.Process = append(EXElist.Process, name)
+			ext := filepath.Ext(name)
+			if strings.ToLower(ext) == ".exe" {
+				EXElist.Process = append(EXElist.Process, name)
+			}
 		}
 
 		data, err := yaml.Marshal(EXElist)
 		if err != nil {
 			panic(err)
 		}
-		application.InfoDialog().SetMessage(string(data)).Show()
-		return string(data)
+		text := string(data)
+		return &text
 	} else {
 		application.InfoDialog().SetMessage("No directory selected").Show()
 	}
-	return ""
+	return nil
 }
 
 // func (m *MioService) Start() {
