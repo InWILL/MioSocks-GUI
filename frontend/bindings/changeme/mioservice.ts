@@ -5,6 +5,10 @@
 // @ts-ignore: Unused imports
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
+export function DeleteRule(name: string): $CancellablePromise<void> {
+    return $Call.ByID(3880024235, name);
+}
+
 export function Download(url: string, name: string): $CancellablePromise<string> {
     return $Call.ByID(3367144066, url, name);
 }

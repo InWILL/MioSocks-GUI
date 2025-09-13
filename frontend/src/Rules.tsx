@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row, Button, Modal, Input } from 'antd';
+import { Col, Divider, Row, Button, Modal, Input, Dropdown } from 'antd';
 import { EditOutlined, PlusOutlined, ScanOutlined } from '@ant-design/icons';
 import Editor from "@monaco-editor/react";
 import { CustomButton } from './CustomButton'
@@ -8,6 +8,7 @@ import { MioService } from '../bindings/changeme'
 export default function Menu_Rules() {
     const [rules, setRules] = useState<string[]>([]);
     const [selectedKey, setSelectedKey] = useState<string | null>(null);
+
     const [showEditor, setShowEditor] = useState<boolean>(false);
     const [editorTitle, setEditorTitle] = useState<string>("YAML Editor");
     const [yamlText, setYamlText] = useState<string>("");
@@ -39,6 +40,13 @@ export default function Menu_Rules() {
         setEditorTitle("New Title");
         setYamlText(text);
         setShowEditor(true);
+    }
+
+    const handleDelete = async (title: string) => {
+        await MioService.DeleteRule(title);
+        await MioService.ReadRules();
+        const rules: string[] = await MioService.GetRules();
+        setRules(rules);
     }
 
     const handleClick = async (key: string|null) => {
@@ -87,6 +95,7 @@ export default function Menu_Rules() {
                     onChange={(val) => setYamlText(val)}
                 />
             </Modal>
+
             <Divider orientation="left">
                 Rules
                 <Button 
@@ -112,14 +121,30 @@ export default function Menu_Rules() {
                 {
                     rules.map((name, i) => (
                         <Col className="gutter-row" span={12}>
-                            <CustomButton
-                                key={i}
-                                label={name}
-                                onMainClick={() => handleClick(name)}
-                                onIconClick={() => handleEditor(name)}
-                                selected = {selectedKey === name ? true : false}
-                                icon = {<EditOutlined />}
-                            />
+                            <Dropdown 
+                                menu={{
+                                    items: [
+                                        { key: "delete", label: "Delete" },
+                                    ],
+                                    onClick: ({ key }) => {
+                                        if (key === "delete") {
+                                            handleDelete(name);
+                                        }
+                                    },
+                                }}
+                                trigger={['contextMenu']}
+                            >
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <CustomButton
+                                        key={i}
+                                        label={name}
+                                        onMainClick={() => handleClick(name)}
+                                        onIconClick={() => handleEditor(name)}
+                                        selected = {selectedKey === name ? true : false}
+                                        icon = {<EditOutlined />}
+                                    />
+                                </a>
+                            </Dropdown>
                         </Col>
                     ))
                 }

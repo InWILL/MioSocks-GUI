@@ -169,6 +169,13 @@ func (m *MioService) WriteRule(name string, content string) {
 	os.WriteFile("./rules/"+name, []byte(content), 0644)
 }
 
+func (m *MioService) DeleteRule(name string) {
+	err := os.Remove("./rules/" + name)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func (m *MioService) ScanFolder() *string {
 	selectedDir, _ := application.OpenFileDialog().
 		CanChooseDirectories(true).
