@@ -134,16 +134,16 @@ export default function Menu_Rules() {
                                 }}
                                 trigger={['contextMenu']}
                             >
-                                <a onClick={(e) => e.preventDefault()}>
+                                <div>
                                     <CustomButton
                                         key={i}
                                         label={name}
                                         onMainClick={() => handleClick(name)}
                                         onIconClick={() => handleEditor(name)}
-                                        selected = {selectedKey === name ? true : false}
+                                        selected = {selectedKey === name}
                                         icon = {<EditOutlined />}
                                     />
-                                </a>
+                                </div>
                             </Dropdown>
                         </Col>
                     ))

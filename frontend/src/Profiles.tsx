@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row, Button, Input  } from 'antd';
-import { CopyOutlined, CheckOutlined, ReloadOutlined, SettingOutlined  } from '@ant-design/icons';
+import { Col, Divider, Row, Button, Input, Modal  } from 'antd';
+import { CopyOutlined, CheckOutlined, ReloadOutlined, SettingOutlined, PlusOutlined  } from '@ant-design/icons';
+import Editor from "@monaco-editor/react";
 import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
@@ -15,6 +16,10 @@ export default function Menu_Profiles() {
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
     const [InputValue, setInputValue] = useState<string>("");
     const [CopyClicked, setCopyClicked] = useState<boolean>(false);
+
+    const [showEditor, setShowEditor] = useState<boolean>(false);
+    const [editorTitle, setEditorTitle] = useState<string>("YAML Editor");
+    const [yamlText, setYamlText] = useState<string>("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,8 +78,41 @@ export default function Menu_Profiles() {
                 <Button>Update</Button>
                 <Button>Import</Button>
             </div>
+
+            <Modal
+                title={
+                    <Input
+                        value={editorTitle}
+                        onChange={(e) => setEditorTitle(e.target.value)}
+                        style={{
+                            fontSize: 16,
+                            fontWeight: 600,
+                            border: "none",
+                        }}
+                    />
+                }
+                open={showEditor}
+                onCancel={() => setShowEditor(false)}
+                onOk={() => {}}
+                width={"90%"}
+                bodyStyle={{ height: "50vh", padding: 0 }}
+            >
+                <Editor
+                    defaultLanguage="yaml"
+                    value={yamlText}
+                    theme="vs-light"
+                    options={{ minimap: { enabled: false } }}
+                    onChange={(val) => setYamlText(val)}
+                />
+            </Modal>
+
             <Divider orientation="left">
                 Config
+                <Button 
+                    icon={<PlusOutlined />}
+                    type='text'
+                    onClick={() => setShowEditor(true)}
+                />
                 <Button 
                     icon={<ReloadOutlined />}
                     type='text'
