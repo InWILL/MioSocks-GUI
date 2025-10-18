@@ -208,6 +208,18 @@ func (m *MioService) ScanFolder() *string {
 	return nil
 }
 
+func (m *MioService) ReadProfile(name string) string {
+	data, err := os.ReadFile("./profiles/" + name)
+	if err != nil {
+		panic(err)
+	}
+	return string(data)
+}
+
+func (m *MioService) WriteProfile(name string, content string) {
+	os.WriteFile("./profiles/"+name, []byte(content), 0644)
+}
+
 // func (m *MioService) Start() {
 // 	m.service, _ = service.NewService(
 // 		service.MioOptions{

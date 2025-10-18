@@ -49,6 +49,26 @@ export default function Menu_Profiles() {
         setTimeout(() => setCopyClicked(false), 1000);
     }
 
+    const handleSave = async () => {
+        await MioService.WriteProfile(editorTitle, yamlText);
+        const profiles: string[] = await MioService.GetProfiles();
+        setMsg(profiles);
+        setShowEditor(false);
+    }
+
+    const HandleAddProfile = async (title: string) => {
+        setEditorTitle(title);
+        setYamlText("");
+        setShowEditor(true);
+    }
+
+    const handleEditor = async (title: string) => {
+        setEditorTitle(title);
+        const text: string = await MioService.ReadProfile(title);
+        setYamlText(text);
+        setShowEditor(true);
+    }
+
     return (
         <div>
             <div
@@ -93,7 +113,7 @@ export default function Menu_Profiles() {
                 }
                 open={showEditor}
                 onCancel={() => setShowEditor(false)}
-                onOk={() => {}}
+                onOk={() => handleSave()}
                 width={"90%"}
                 bodyStyle={{ height: "50vh", padding: 0 }}
             >
@@ -111,7 +131,7 @@ export default function Menu_Profiles() {
                 <Button 
                     icon={<PlusOutlined />}
                     type='text'
-                    onClick={() => setShowEditor(true)}
+                    onClick={() => HandleAddProfile("New Title")}
                 />
                 <Button 
                     icon={<ReloadOutlined />}
@@ -126,7 +146,7 @@ export default function Menu_Profiles() {
                             key={i}
                             label={name}
                             onMainClick={() => handleClick(i)}
-                            onIconClick={() => alert("辅助功能触发！")}
+                            onIconClick={() => handleEditor(name)}
                             selected = {selectedKey === i ? true : false}
                             icon = {<SettingOutlined />}
                         />
