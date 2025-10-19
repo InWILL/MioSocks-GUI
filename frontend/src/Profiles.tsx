@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Col, Divider, Row, Button, Input, Modal  } from 'antd';
+import { Col, Divider, Row, Button, Input, Modal, Dropdown  } from 'antd';
 import { CopyOutlined, CheckOutlined, ReloadOutlined, SettingOutlined, PlusOutlined  } from '@ant-design/icons';
 import Editor from "@monaco-editor/react";
 import { CustomButton } from './CustomButton'
@@ -12,7 +12,7 @@ const Download = async (url: string) => {
 }
 
 export default function Menu_Profiles() {
-    const [msg, setMsg] = useState<string[]>([]);
+    const [profiles, setProfiles] = useState<string[]>([]);
     const [selectedKey, setSelectedKey] = useState<number | null>(null);
     const [InputValue, setInputValue] = useState<string>("");
     const [CopyClicked, setCopyClicked] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export default function Menu_Profiles() {
     useEffect(() => {
         const fetchData = async () => {
             const result: string[] = await MioService.GetProfiles();
-            setMsg(result);
+            setProfiles(result);
 
             const selected: number|null = await MioService.GetSelectedProfile();
             if(selected != null) {
@@ -52,7 +52,7 @@ export default function Menu_Profiles() {
     const handleSave = async () => {
         await MioService.WriteProfile(editorTitle, yamlText);
         const profiles: string[] = await MioService.GetProfiles();
-        setMsg(profiles);
+        setProfiles(profiles);
         setShowEditor(false);
     }
 
@@ -67,6 +67,13 @@ export default function Menu_Profiles() {
         const text: string = await MioService.ReadProfile(title);
         setYamlText(text);
         setShowEditor(true);
+    }
+
+    const handleDelete = async (index) => {
+        await MioService.DeleteProfile(index);
+        await MioService.ReadProfiles();
+        const profiles: string[] = await MioService.GetProfiles();
+        setProfiles(profiles);
     }
 
     return (
@@ -140,16 +147,32 @@ export default function Menu_Profiles() {
             </Divider>
             <Row gutter={[12, 12]}>
                 {
-                msg.map((name, i) => (
+                profiles.map((name, i) => (
                     <Col className="gutter-row" span={12}>
-                        <CustomButton
-                            key={i}
-                            label={name}
-                            onMainClick={() => handleClick(i)}
-                            onIconClick={() => handleEditor(name)}
-                            selected = {selectedKey === i ? true : false}
-                            icon = {<SettingOutlined />}
-                        />
+                        <Dropdown 
+                            menu={{
+                                items: [
+                                    { key: "delete", label: "Delete" },
+                                ],
+                                onClick: ({ key }) => {
+                                    if (key === "delete") {
+                                        handleDelete(i);
+                                    }
+                                },
+                            }}
+                            trigger={['contextMenu']}
+                        >
+                            <div>
+                                <CustomButton
+                                    key={i}
+                                    label={name}
+                                    onMainClick={() => handleClick(i)}
+                                    onIconClick={() => handleEditor(name)}
+                                    selected = {selectedKey === i ? true : false}
+                                    icon = {<SettingOutlined />}
+                                />
+                            </div>
+                        </Dropdown>
                     </Col>
                 ))
                 }

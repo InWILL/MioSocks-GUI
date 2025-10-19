@@ -218,6 +218,21 @@ func (m *MioService) ReadProfile(name string) string {
 
 func (m *MioService) WriteProfile(name string, content string) {
 	os.WriteFile("./profiles/"+name, []byte(content), 0644)
+	m.config.Profiles = append(m.config.Profiles, ProfileList{
+		Time: name,
+		Name: name,
+	})
+	m.WriteProfiles()
+}
+
+func (m *MioService) DeleteProfile(index int) {
+	name := m.config.Profiles[index].Time
+	err := os.Remove("./profiles/" + name)
+	if err != nil {
+		panic(err)
+	}
+	m.config.Profiles = append(m.config.Profiles[:index], m.config.Profiles[index+1:]...)
+	m.WriteProfiles()
 }
 
 // func (m *MioService) Start() {
