@@ -37,7 +37,7 @@ type MioService struct {
 	config  Config
 	profile Profile
 	rules   []string
-	// service  service.MioService
+	// service service.MioService
 }
 
 func (m *MioService) GetPort() *uint16 {
@@ -238,17 +238,25 @@ func (m *MioService) DeleteProfile(index int) {
 // func (m *MioService) Start() {
 // 	m.service, _ = service.NewService(
 // 		service.MioOptions{
-// 			Port: 2805,
+// 			Port: 2801,
 // 			Proxy: map[string]any{
 // 				"name": "Direct",
 // 				"type": "direct",
 // 			},
 // 		})
+// 	if m.config.Selected != nil {
+// 		if m.config.Profiles[*m.config.Selected].Selected != nil {
+// 			proxyIndex := *m.config.Profiles[*m.config.Selected].Selected
+// 			m.service.UpdateProxy(m.profile.Proxies[proxyIndex])
+// 		}
+// 	}
 // 	go m.service.Start()
 // }
 
-// func (m *MioService) UpdateProxy(index int) {
-// 	m.service.UpdateProxy(m.profile.Proxies[index])
+// func (m *MioService) UpdateProxy(index *int) {
+// 	if index != nil {
+// 		m.service.UpdateProxy(m.profile.Proxies[*index])
+// 	}
 // }
 
 // func (m *MioService) GetStream() {
