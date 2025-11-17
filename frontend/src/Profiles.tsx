@@ -7,7 +7,9 @@ import { CustomButton } from './CustomButton'
 import { MioService } from '../bindings/changeme'
 
 const Download = async (url: string) => {
-    const result: string = await MioService.Download(url, "test.yaml")
+    const result: string = await MioService.Download(url, "config.yaml")
+    await MioService.ReadProxies();
+    await MioService.GetProxies();
     alert(result)
 }
 

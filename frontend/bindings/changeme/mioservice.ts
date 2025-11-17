@@ -57,6 +57,10 @@ export function GetSelectedRule(): $CancellablePromise<string | null> {
     return $Call.ByID(2160096249);
 }
 
+export function GetStream(): $CancellablePromise<void> {
+    return $Call.ByID(2499540926);
+}
+
 export function ReadProfile(name: string): $CancellablePromise<string> {
     return $Call.ByID(1639233303, name);
 }
@@ -79,6 +83,14 @@ export function ReadRules(): $CancellablePromise<void> {
 
 export function ScanFolder(): $CancellablePromise<string | null> {
     return $Call.ByID(1994113603);
+}
+
+export function Start(): $CancellablePromise<void> {
+    return $Call.ByID(3114879498);
+}
+
+export function UpdateProxy(index: number | null): $CancellablePromise<void> {
+    return $Call.ByID(260160165, index);
 }
 
 export function UpdateSelectedProfile(index: number | null): $CancellablePromise<void> {
