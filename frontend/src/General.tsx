@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { List, Switch, Button, Tooltip, Typography, Modal, InputNumber } from "antd"
 import { InfoCircleOutlined, FolderOpenOutlined } from '@ant-design/icons';
-import { MioService } from '../bindings/changeme';
 const { Text } = Typography;
 
 export default function Menu_General() {
@@ -10,6 +9,8 @@ export default function Menu_General() {
     const [Socks5Port, setSocks5Port] = useState<number | null>(null);
     const [tempPort, setTempPort] = useState<number | null>(Socks5Port);
     const [AllowLAN, setAllowLAN] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
+    const [version, setVersion] = useState<string>("");
 
     const handleSocks5Modal = () => {
         setSocks5Modal(false);
@@ -73,7 +74,7 @@ export default function Menu_General() {
         {
             title: 'MioSocks Core',
             tooltip: '内核版本信息',
-            control: <Text>2023.08.17-13-gdcc8d87 Premium (62236)</Text>
+            control: <Text>{version}</Text>
         },
         {
             title: 'Home Directory',
@@ -94,17 +95,27 @@ export default function Menu_General() {
     ];
 
     useEffect(() => {
-        const GetConfig = async () => {
-            const port: number|null = await MioService.GetPort();
-            const allowlan: boolean = await MioService.GetAllowLAN();
-            if(port == null) return;
-            setSocks5Disabled(false);
+        const fetchInfo = async() => {
+            const res = await fetch('http://localhost:62334/config', {
+                method: 'GET',
+            });
+            const data = await res.json();
+            const port = data['port'];
+            const version = data['version'];
             setSocks5Port(port);
             setTempPort(port);
-            setAllowLAN(allowlan);
+            setVersion(version);
+
+            setLoaded(true);
         }
-        GetConfig();
+            setSocks5Disabled(false);
+            // setAllowLAN(allowlan);
+        fetchInfo();
     }, []);
+
+    if(!loaded) {
+        return;
+    }
 
     return (
     <List

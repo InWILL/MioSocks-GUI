@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Events } from '@wailsio/runtime';
 
-import { Layout, Menu } from "antd"
+import { Layout, Menu, Badge, Divider } from "antd"
 import Menu_General from './General'
 import Menu_Profiles from './Profiles'
 import Menu_Proxies from './Proxies'
@@ -10,42 +9,54 @@ import Menu_Rules from './Rules';
 const { Sider, Content } = Layout;
 
 function App() {
-  const [current, setCurrent] = useState('General');
-  const [Upstream, setUpstream] = useState<string>("")
-  const [Downstream, setDownstream] = useState<string>("")
+    const [current, setCurrent] = useState('General');
 
-  const onClick = (e: any) => {
-    setCurrent(e.key);
-  };
-  useEffect(() => {
-    Events.On("upstream-update", (event) => {
-      const val: string = event.data
-      setUpstream(val);
-    });
-    Events.On("downstream-update", (event) => {
-      const val: string = event.data
-      setDownstream(val);
-    });
-  }, []);
+    const [connected, setConnected] = useState<boolean>(false);
+    const [name, setName] = useState<string>("")
+    const [Upstream, setUpstream] = useState<string>("")
+    const [Downstream, setDownstream] = useState<string>("")
 
-  const renderContent = () => {
-    switch (current) {
-      case 'General':
-        return <Menu_General />;
-      case 'Profiles':
-        return <Menu_Profiles />;
-      case 'Proxies':
-        return <Menu_Proxies />;
-      case 'Rules':
-        return <Menu_Rules />;
-      case 'Logs':
-        return <div>设置选项2的内容</div>;
-      default:
-        return <div>请选择菜单</div>;
-    }
-  };
+    const onClick = (e: any) => {
+        setCurrent(e.key);
+    };
+    
+    useEffect(() => {
+        const fetchTraffic = async () => {
+            const res = await fetch('http://localhost:62334/traffic', {
+                method: 'GET',
+            }).catch(() => {
+                setConnected(false);
+            });
+            if(!res) return;
+            const data = await res.json();
+            setConnected(true);
+            setName(data['name']);
+            setUpstream(data['upstream']);
+            setDownstream(data['downstream']);
+        };
+        
+        const timer = setInterval(fetchTraffic, 2000);
+        return () => clearInterval(timer);
+    }, []);
 
-  return (
+    const renderContent = () => {
+        switch (current) {
+        case 'General':
+            return <Menu_General />;
+        case 'Profiles':
+            return <Menu_Profiles />;
+        case 'Proxies':
+            return <Menu_Proxies />;
+        case 'Rules':
+            return <Menu_Rules />;
+        case 'Logs':
+            return <div>设置选项2的内容</div>;
+        default:
+            return <div>请选择菜单</div>;
+        }
+    };
+
+    return (
     <div className="container">
       <Layout style={{ height: '100vh'}}>
         <Sider theme="light">
@@ -80,14 +91,20 @@ function App() {
                 </Menu.Item>
             </Menu>
 
+            <Divider />
+
+            <div style={{ textAlign: 'center' }}>
+                {
+                    connected ?
+                    <Badge status="success" text={name} /> :
+                    <Badge status="error" text="Disconnected" />
+                }
+            </div>
             <div style={{ textAlign: 'center' }}>
                 ↑ {Upstream}
             </div>
             <div style={{ textAlign: 'center' }}>
                 ↓ {Downstream}
-            </div>
-            <div style={{ textAlign: 'center' }}>
-                ■Connected
             </div>
 
         </Sider>
