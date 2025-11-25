@@ -94,17 +94,15 @@ function App() {
             <Divider />
 
             <div style={{ textAlign: 'center' }}>
-                {
-                    connected ?
-                    <Badge status="success" text={name} /> :
-                    <Badge status="error" text="Disconnected" />
-                }
-            </div>
-            <div style={{ textAlign: 'center' }}>
-                ↑ {Upstream}
-            </div>
-            <div style={{ textAlign: 'center' }}>
-                ↓ {Downstream}
+            {
+                connected ?
+                <>
+                    <Badge status="success" text={name} />
+                    <div>↑ {Upstream}</div>
+                    <div>↓ {Downstream}</div>
+                </> :
+                <Badge status="error" text="Disconnected" />
+            }
             </div>
 
         </Sider>
