@@ -8,13 +8,33 @@ import Menu_Rules from './Rules';
 
 const { Sider, Content } = Layout;
 
+function formatBytes(bytes: number, decimals = 2) {
+    const KB = 1024;
+	const MB = 1024 * KB;
+	const GB = 1024 * MB;
+	const TB = 1024 * GB;
+	if(bytes >= TB){
+        return (bytes / TB).toFixed(decimals) + ' TB';
+    }
+    else if(bytes >= GB){
+        return (bytes / GB).toFixed(decimals) + ' GB';
+    }
+    else if(bytes >= MB){
+        return (bytes / MB).toFixed(decimals) + ' MB';
+    }
+    else if(bytes >= KB){
+        return (bytes / KB).toFixed(decimals) + ' KB';
+    }
+    return bytes + ' Bytes';
+}
+
 function App() {
     const [current, setCurrent] = useState('General');
 
     const [connected, setConnected] = useState<boolean>(false);
-    const [name, setName] = useState<string>("")
-    const [Upstream, setUpstream] = useState<string>("")
-    const [Downstream, setDownstream] = useState<string>("")
+    const [name, setName] = useState<string>("");
+    const [Upstream, setUpstream] = useState<number>(0);
+    const [Downstream, setDownstream] = useState<number>(0);
 
     const onClick = (e: any) => {
         setCurrent(e.key);
@@ -98,8 +118,8 @@ function App() {
                 connected ?
                 <>
                     <Badge status="success" text={name} />
-                    <div>↑ {Upstream}</div>
-                    <div>↓ {Downstream}</div>
+                    <div>↑ {formatBytes(Upstream)}</div>
+                    <div>↓ {formatBytes(Downstream)}</div>
                 </> :
                 <Badge status="error" text="Disconnected" />
             }
