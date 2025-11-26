@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -258,34 +257,3 @@ func (m *MioService) DeleteProfile(index int) {
 // 		m.service.UpdateProxy(m.profile.Proxies[*index])
 // 	}
 // }
-
-// func (m *MioService) GetStream() {
-// 	ticker := time.NewTicker(time.Second)
-// 	for range ticker.C {
-// 		UpStream := m.service.GetUpStream()
-// 		DownStream := m.service.GetDownStream()
-// 		app.Event.Emit("upstream-update", formatBytes(UpStream))
-// 		app.Event.Emit("downstream-update", formatBytes(DownStream))
-// 	}
-// }
-
-func formatBytes(bytes int64) string {
-	const (
-		KB = 1024
-		MB = 1024 * KB
-		GB = 1024 * MB
-		TB = 1024 * GB
-	)
-	switch {
-	case bytes >= TB:
-		return fmt.Sprintf("%.2f TB", float64(bytes)/float64(TB))
-	case bytes >= GB:
-		return fmt.Sprintf("%.2f GB", float64(bytes)/float64(GB))
-	case bytes >= MB:
-		return fmt.Sprintf("%.2f MB", float64(bytes)/float64(MB))
-	case bytes >= KB:
-		return fmt.Sprintf("%.2f KB", float64(bytes)/float64(KB))
-	default:
-		return fmt.Sprintf("%d B", bytes)
-	}
-}
