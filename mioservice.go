@@ -1,6 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -8,6 +12,17 @@ import (
 	"github.com/goccy/go-yaml"
 	"github.com/wailsapp/wails/v3/pkg/application"
 )
+
+type Rules struct {
+	Domain  []string `json:"domain,omitempty"`
+	Process []string `json:"process,omitempty"`
+}
+
+type MioOptions struct {
+	Port  uint16         `json:"port"`
+	Proxy map[string]any `json:"proxy"`
+	Rules Rules          `json:"rules,omitempty"`
+}
 
 type Profile struct {
 	Proxies []map[string]any `yaml:"proxies"`
@@ -252,8 +267,23 @@ func (m *MioService) DeleteProfile(index int) {
 // 	go m.service.Start()
 // }
 
-// func (m *MioService) UpdateProxy(index *int) {
-// 	if index != nil {
-// 		m.service.UpdateProxy(m.profile.Proxies[*index])
-// 	}
-// }
+func (m *MioService) UpdateProxy(index *int) {
+	if index != nil {
+		// m.service.UpdateProxy(m.profile.Proxies[*index])
+		options := MioOptions{
+			Port:  2801,
+			Proxy: m.profile.Proxies[*index],
+		}
+		data, _ := json.Marshal(options)
+		req, err := http.Post(
+			"http://127.0.0.1:62334/config",
+			"application/json",
+			bytes.NewBuffer(data),
+		)
+		if err != nil {
+			panic(err)
+		}
+		defer req.Body.Close()
+		fmt.Printf("Proxy updated: %d\n", req.StatusCode)
+	}
+}

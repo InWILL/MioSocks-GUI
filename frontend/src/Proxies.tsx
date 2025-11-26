@@ -16,7 +16,7 @@ export default function Menu_Proxies() {
 
         setSelectedKey(key);
         await MioService.UpdateSelectedProxy(key);
-        // MioService.UpdateProxy(key);
+        MioService.UpdateProxy(key);
     }
 
     useEffect(() => {

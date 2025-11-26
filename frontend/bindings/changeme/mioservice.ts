@@ -81,6 +81,10 @@ export function ScanFolder(): $CancellablePromise<string | null> {
     return $Call.ByID(1994113603);
 }
 
+export function UpdateProxy(index: number | null): $CancellablePromise<void> {
+    return $Call.ByID(260160165, index);
+}
+
 export function UpdateSelectedProfile(index: number | null): $CancellablePromise<void> {
     return $Call.ByID(3010063943, index);
 }
