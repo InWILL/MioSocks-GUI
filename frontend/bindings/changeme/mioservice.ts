@@ -5,7 +5,7 @@
 // @ts-ignore: Unused imports
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
-export function DelayTest(index: number | null): $CancellablePromise<number> {
+export function DelayTest(index: number): $CancellablePromise<number> {
     return $Call.ByID(2300954565, index);
 }
 

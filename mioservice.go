@@ -288,25 +288,23 @@ func (m *MioService) UpdateService(index *int) {
 	}
 }
 
-func (m *MioService) DelayTest(index *int) int64 {
-	if index != nil {
-		proxy := m.profile.Proxies[*index]
-		data, _ := json.Marshal(proxy)
-		req, err := http.Post(
-			"http://localhost:62334/delay",
-			"application/json",
-			bytes.NewBuffer(data),
-		)
-		if err != nil {
-			panic(err)
-		}
-		defer req.Body.Close()
+func (m *MioService) DelayTest(index int) int64 {
+	proxy := m.profile.Proxies[index]
 
-		var result struct {
-			Delay int64 `json:"delay"`
-		}
-		json.NewDecoder(req.Body).Decode(&result)
-		return result.Delay
+	data, _ := json.Marshal(proxy)
+	req, err := http.Post(
+		"http://localhost:62334/delay",
+		"application/json",
+		bytes.NewBuffer(data),
+	)
+	if err != nil {
+		panic(err)
 	}
-	return 0
+	defer req.Body.Close()
+
+	var result struct {
+		Delay int64 `json:"delay"`
+	}
+	json.NewDecoder(req.Body).Decode(&result)
+	return result.Delay
 }

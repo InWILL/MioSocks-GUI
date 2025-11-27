@@ -20,7 +20,7 @@ export default function Menu_Proxies() {
         MioService.UpdateService(key);
     }
 
-    const handleDelay = async (key: number|null) => {
+    const handleDelay = async (key: number) => {
         const delay: number = await MioService.DelayTest(key);
         setDelays(prev => ({
             ...prev,
