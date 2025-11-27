@@ -5,6 +5,10 @@
 // @ts-ignore: Unused imports
 import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Create } from "@wailsio/runtime";
 
+export function DelayTest(index: number | null): $CancellablePromise<number> {
+    return $Call.ByID(2300954565, index);
+}
+
 export function DeleteProfile(index: number): $CancellablePromise<void> {
     return $Call.ByID(3153536982, index);
 }
@@ -81,16 +85,16 @@ export function ScanFolder(): $CancellablePromise<string | null> {
     return $Call.ByID(1994113603);
 }
 
-export function UpdateProxy(index: number | null): $CancellablePromise<void> {
-    return $Call.ByID(260160165, index);
-}
-
 export function UpdateSelectedProfile(index: number | null): $CancellablePromise<void> {
     return $Call.ByID(3010063943, index);
 }
 
 export function UpdateSelectedProxy(index: number | null): $CancellablePromise<void> {
     return $Call.ByID(189746918, index);
+}
+
+export function UpdateService(index: number | null): $CancellablePromise<void> {
+    return $Call.ByID(3446428366, index);
 }
 
 export function WriteProfile(name: string, content: string): $CancellablePromise<void> {

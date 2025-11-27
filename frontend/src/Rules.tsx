@@ -110,7 +110,7 @@ export default function Menu_Rules() {
                 />
             </Divider>
             <Row gutter={[12, 12]}>
-                <Col className="gutter-row" span={12}>
+                <Col className="gutter-row" sm={12} xl={6}>
                 <CustomButton
                     label = {"Direct"}
                     onMainClick = {() => handleClick(null)}
@@ -120,7 +120,7 @@ export default function Menu_Rules() {
                 </Col>
                 {
                     rules.map((name, i) => (
-                        <Col className="gutter-row" span={12}>
+                        <Col className="gutter-row" sm={12} xl={6}>
                             <Dropdown 
                                 menu={{
                                     items: [

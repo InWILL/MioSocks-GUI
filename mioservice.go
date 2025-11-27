@@ -267,7 +267,7 @@ func (m *MioService) DeleteProfile(index int) {
 // 	go m.service.Start()
 // }
 
-func (m *MioService) UpdateProxy(index *int) {
+func (m *MioService) UpdateService(index *int) {
 	if index != nil {
 		// m.service.UpdateProxy(m.profile.Proxies[*index])
 		options := MioOptions{
@@ -286,4 +286,27 @@ func (m *MioService) UpdateProxy(index *int) {
 		defer req.Body.Close()
 		fmt.Printf("Proxy updated: %d\n", req.StatusCode)
 	}
+}
+
+func (m *MioService) DelayTest(index *int) int64 {
+	if index != nil {
+		proxy := m.profile.Proxies[*index]
+		data, _ := json.Marshal(proxy)
+		req, err := http.Post(
+			"http://localhost:62334/delay",
+			"application/json",
+			bytes.NewBuffer(data),
+		)
+		if err != nil {
+			panic(err)
+		}
+		defer req.Body.Close()
+
+		var result struct {
+			Delay int64 `json:"delay"`
+		}
+		json.NewDecoder(req.Body).Decode(&result)
+		return result.Delay
+	}
+	return 0
 }

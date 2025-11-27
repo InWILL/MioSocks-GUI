@@ -150,7 +150,7 @@ export default function Menu_Profiles() {
             <Row gutter={[12, 12]}>
                 {
                 profiles.map((name, i) => (
-                    <Col className="gutter-row" span={12}>
+                    <Col className="gutter-row" sm={12} xl={6}>
                         <Dropdown 
                             menu={{
                                 items: [
