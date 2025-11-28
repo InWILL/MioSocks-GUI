@@ -28,10 +28,12 @@ export default function Menu_Proxies() {
         }));
     }
 
-    const getColor = (delay: number) => {
-        if (delay < 100) return 'green';
-        else if (delay < 500) return 'orange';
-        else return 'red';
+    const handleIcon = (delay: number) => {
+        if (delay === undefined) return <ThunderboltOutlined />;
+        else if (delay <= 0) return <span style={{ color: 'red' }}>Error</span>;
+        else if (delay < 100) return <span style={{ color: 'green' }}>{delay}</span>;
+        else if (delay < 500) return <span style={{ color: 'orange' }}>{delay}</span>;
+        else return <span style={{ color: 'red' }}>{delay}</span>;
     }
 
     useEffect(() => {
@@ -75,13 +77,7 @@ export default function Menu_Proxies() {
                             onMainClick = {() => handleClick(i)}
                             onIconClick = {() => handleDelay(i)}
                             selected = {selectedKey === i ? true : false}
-                            icon = {
-                                delays[i] !== undefined
-                                ? <span style={{ color: getColor(delays[i]) }}>
-                                    {delays[i]}
-                                    </span>
-                                : <ThunderboltOutlined />
-                            }
+                            icon = {handleIcon(delays[i])}
                         />
                     </Col>
                 ))

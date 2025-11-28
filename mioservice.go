@@ -276,7 +276,7 @@ func (m *MioService) UpdateService(index *int) {
 		}
 		data, _ := json.Marshal(options)
 		req, err := http.Post(
-			"http://127.0.0.1:62334/config",
+			"http://localhost:62334/config",
 			"application/json",
 			bytes.NewBuffer(data),
 		)
