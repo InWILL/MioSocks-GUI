@@ -51,6 +51,7 @@ type MioService struct {
 	config  Config
 	profile Profile
 	rules   []string
+	options MioOptions
 	// service service.MioService
 }
 
@@ -81,7 +82,25 @@ func (m *MioService) UpdateSelectedProfile(index *uint) {
 func (m *MioService) UpdateSelectedProxy(index *uint) {
 	i := *m.config.Selected
 	m.config.Profiles[i].Selected = index
+
+	m.options.Proxy = m.profile.Proxies[*index]
 	//m.WriteProfiles()
+}
+
+func (m *MioService) UpdateSelectedRules(name *string) {
+	m.config.Rule = name
+	if name == nil {
+		return
+	}
+
+	ruleFile, err := os.ReadFile("./rules/" + *m.config.Rule)
+	if err != nil {
+		panic(err)
+	}
+	err = yaml.Unmarshal(ruleFile, &m.options.Rules)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (m *MioService) WriteProfiles() {
@@ -270,9 +289,11 @@ func (m *MioService) DeleteProfile(index int) {
 func (m *MioService) UpdateService(index *int) {
 	if index != nil {
 		// m.service.UpdateProxy(m.profile.Proxies[*index])
+
 		options := MioOptions{
 			Port:  2801,
 			Proxy: m.profile.Proxies[*index],
+			Rules: rules,
 		}
 		data, _ := json.Marshal(options)
 		req, err := http.Post(
