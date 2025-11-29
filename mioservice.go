@@ -122,6 +122,8 @@ func (m *MioService) ReadProfiles() *uint {
 	if err != nil {
 		panic(err)
 	}
+
+	m.options.Port = *m.config.Port
 	return m.config.Selected
 }
 
@@ -290,12 +292,7 @@ func (m *MioService) UpdateService(index *int) {
 	if index != nil {
 		// m.service.UpdateProxy(m.profile.Proxies[*index])
 
-		options := MioOptions{
-			Port:  2801,
-			Proxy: m.profile.Proxies[*index],
-			Rules: rules,
-		}
-		data, _ := json.Marshal(options)
+		data, _ := json.Marshal(m.options)
 		req, err := http.Post(
 			"http://localhost:62334/config",
 			"application/json",
